@@ -1,0 +1,51 @@
+.navbar-nav .nav-link {
+    color: #ffffff;
+    margin: 0 10px;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ff9900;
+}
+
+.navbar-nav .nav-link.active {
+    font-weight: bold;
+}
+
+.navbar-nav .logout-btn {
+    padding: 8px 20px;
+    border-radius: 5px;
+    background-color: #ff0000;
+    border: none;
+    color: #ffffff;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-nav .logout-btn:hover {
+    background-color: #cc0000;
+}
+
+.mypage-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.history {
+    margin-top: 50px;
+}
+
+.mypage-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.mypage-table th, .mypage-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.mypage-table th {
+    background-color: #f2f2f2;
+}

@@ -1,0 +1,57 @@
+body {
+    color: #333333
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ff9900;
+}
+
+.navbar-nav .nav-link.active {
+    font-weight: bold;
+}
+
+.navbar-nav .logout-btn {
+    padding: 8px 20px;
+    border-radius: 5px;
+    background-color: #ff0000;
+    border: none;
+    color: #ffffff;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-nav .logout-btn:hover {
+    background-color: #cc0000;
+}
+
+.product-container {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.sub-title-container {
+    margin-top: 50px;
+}
+
+.sub-title {
+    padding-bottom: 5px;
+}
+
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.product-table th, .product-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.product-table th {
+    background-color: #f2f2f2;
+}
+
+.product-table td input[type="number"] {
+    width: 25%;
+}

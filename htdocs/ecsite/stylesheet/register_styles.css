@@ -1,0 +1,82 @@
+.navbar-nav .nav-link {
+    color: #ffffff;
+    margin: 0 10px;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ff9900;
+}
+
+.navbar-nav .nav-link.active {
+    font-weight: bold;
+}
+
+.navbar-nav .logout-btn {
+    padding: 8px 20px;
+    border-radius: 5px;
+    background-color: #ff0000;
+    border: none;
+    color: #ffffff;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-nav .logout-btn:hover {
+    background-color: #cc0000;
+}
+
+.register-container {
+    max-width: 450px;
+    margin: 50px auto 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.register-form {
+    margin-top: 20px;
+}
+
+.register-form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.register-form input[type="text"],
+.register-form input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.register-form input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4caf50;
+    color: white;
+    cursor: pointer;
+}
+
+.register-form input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+}
+
+.message {
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #c0392b; /* 赤色 */
+    margin-bottom: 20px; /* メッセージとフォームの間隔を設定 */
+}

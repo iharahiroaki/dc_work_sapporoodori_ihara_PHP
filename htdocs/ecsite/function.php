@@ -46,7 +46,7 @@ function logout() {
     exit;
 }
 
-// パスワードのハッシュ化する関数
+// パスワードをハッシュ化する関数
 function hashPassword($password) {
     return password_hash($password, PASSWORD_DEFAULT);
 }
@@ -63,7 +63,7 @@ function registerUser($dbh, $username, $password) {
     }
 }
 
-// パスワードの照合する関数
+// パスワードを照合する関数
 function verifyPassword($password, $hashedPassword) {
     return password_verify($password, $hashedPassword);
 }

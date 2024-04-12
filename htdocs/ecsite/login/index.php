@@ -75,6 +75,11 @@ function save_session_id_to_database($username, $session_id, $dbh) {
     $stmt->bindParam(':username', $username);
     $stmt->execute();
 }
+
+var_dump($_SESSION);
+
+echo session_id();
+
 ?>
 
 <!DOCTYPE html>
@@ -94,7 +99,7 @@ function save_session_id_to_database($username, $session_id, $dbh) {
     </header>
     
     <div class="login-container">
-        <h2 class="login-title">ディレクトリ移動</h2>
+        <h2 class="login-title">ログイン</h2>
         <?php if (isset($error_message)): ?>
             <script>
                 alert("<?php echo htmlspecialchars($error_message, ENT_QUOTES); ?>");
@@ -103,11 +108,11 @@ function save_session_id_to_database($username, $session_id, $dbh) {
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="login-form">
             <div class="form-group">
                 <label for="username" class="login-label">ユーザーID:</label>
-                <input type="text" name="username" id="username" required><br><br> <!-- ※required属性でnull禁止 -->
+                <input type="text" name="username" id="username" autocomplete="off" required><br><br> <!-- ※required属性でnull禁止 -->
             </div>
             <div class="form-group">
                 <label for="password" class="login-label">パスワード:</label>
-                <input type="password" name="password" id="password" required><br><br> <!-- ※required属性でnull禁止 -->
+                <input type="password" name="password" id="password" autocomplete="off" required><br><br> <!-- ※required属性でnull禁止 -->
             </div>
             <input type="submit" value="ログイン">
         </form>

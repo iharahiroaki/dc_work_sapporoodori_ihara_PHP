@@ -1,0 +1,88 @@
+/* 新しいスタイルを追加 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #232f3e;
+    color: #ffffff;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.site-title {
+    margin: 0;
+}
+
+.login-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
+}
+
+.login-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+}
+
+.login-form {
+    text-align: center;
+}
+
+.login-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.login-label {
+    flex-basis: 120px;
+    margin-right: 10px;
+    text-align: right;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: 70%;
+    padding: 10px;
+    margin-bottom: 20px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    flex-grow: 1;
+}
+
+.login-form input[type="submit"] {
+    background-color: #ff9900;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #e68a00;
+}
+
+.signup {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #0066c0;
+    font-weight: bold;
+}
