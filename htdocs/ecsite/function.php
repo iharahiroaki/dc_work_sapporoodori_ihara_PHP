@@ -42,7 +42,7 @@ function logout() {
     session_unset();
     session_destroy();
     // ログアウト後はログインページにリダイレクトする
-    header("Location: ./login/index.php");
+    header("Location: ./index.php");
     exit;
 }
 
