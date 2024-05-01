@@ -1,33 +1,3 @@
-<?php
-// セッションを開始
-session_start();
-
-// ブラウザにエラーを表示
-ini_set('display_errors', "On");
-
-// データベースに接続
-require_once('./dbConnect.php');
-$dbh = dbConnect();
-
-// function.phpの読み込み
-require_once('./function.php');
-
-// もし未ログインであれば、index.phpにリダイレクト
-checkLogin();
-
-// ログアウト処理
-if (isset($_POST['logout'])) {
-    logout();
-}
-
-// ログインユーザーの購入履歴を取得する
-$user_id = $_SESSION['user_id'];
-$stmt = $dbh->prepare("SELECT * FROM purchase_history WHERE user_id = ?"); // $pdoではなく$dbhを使用する
-$stmt->execute([$user_id]);
-$purchase_history = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-?>
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -57,7 +27,7 @@ $purchase_history = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <a class="nav-link" href="./cart.php">買い物カゴ</a>
                     </li>
                     <li class="nav-item">
-                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="nav-link">
+                        <form action="./index.php" method="post" class="nav-link">
                             <button type="submit" name="logout" class="btn btn-danger">ログアウト</button>
                         </form>
                     </li>
@@ -82,14 +52,18 @@ $purchase_history = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($purchase_history as $purchase): ?>
-                        <tr>
-                            <td><?= $purchase['purchase_id'] ?></td>
-                            <td><?= getProductInfo($dbh, $purchase['product_id'])['product_name'] ?></td>
-                            <td><?= $purchase['quantity'] ?></td>
-                            <td><?= $purchase['purchase_date'] ?></td>
-                        </tr>
-                    <?php endforeach; ?>
+                    <?php if (!empty($allProducts)): ?>
+                        <?php foreach ($purchase_history as $purchase): ?>
+                            <tr>
+                                <td><?= $purchase['purchase_id'] ?></td>
+                                <td><?= getProductInfo($dbh, $purchase['product_id'])['product_name'] ?></td>
+                                <td><?= $purchase['quantity'] ?></td>
+                                <td><?= $purchase['purchase_date'] ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p>商品が見つかりませんでした。</p>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>

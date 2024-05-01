@@ -43,7 +43,7 @@ function logout() {
     session_destroy();
     // ログアウト後はログインページにリダイレクトする
     header("Location: ./index.php");
-    exit;
+    exit;        
 }
 
 // パスワードをハッシュ化する関数

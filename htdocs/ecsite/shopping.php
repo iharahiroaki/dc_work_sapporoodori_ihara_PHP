@@ -28,7 +28,7 @@
                         <a class="nav-link" href="./mypage.php">マイページ</a>
                     </li>
                     <li class="nav-item">
-                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="nav-link">
+                        <form action="./shopping_process.php" method="post" class="nav-link">
                             <button type="submit" name="logout" class="btn btn-danger">ログアウト</button>
                         </form>
                     </li>
@@ -36,6 +36,11 @@
             </div>
         </div>
     </nav>
+    
+    <?php 
+    // product_process.phpをインクルード
+    require_once('./shopping_process.php');
+    ?>
 
     <div class="container text-center">
         <h1>ショッピングページ</h1>

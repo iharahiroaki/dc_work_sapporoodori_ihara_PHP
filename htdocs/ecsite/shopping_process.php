@@ -19,6 +19,9 @@ checkLogin();
 if (isset($_POST['logout'])) {
     logout();
 }
+// ログアウト後にセッションIDを取得し、表示する
+$new_session_id = session_id();
+echo "ログアウト後のセッションID: " . $new_session_id;
 
 // 公開フラグが「公開」の商品のみを取得
 $table = 'product';
