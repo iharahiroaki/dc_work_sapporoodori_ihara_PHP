@@ -2,6 +2,8 @@
 // セッションを開始
 session_start();
 
+var_dump($_SESSION);
+
 // ブラウザにエラーを表示
 ini_set('display_errors', "On");
 
@@ -21,6 +23,8 @@ require_once('./function.php');
 // データを取得
 $table = 'product';
 $allProducts = getAllData($dbh, $table);
+
+var_dump($allProducts);
 
 // ログアウト処理
 if (isset($_POST['logout'])) {

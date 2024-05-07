@@ -38,7 +38,7 @@
     </nav>
     
     <?php 
-    // product_process.phpをインクルード
+    // shopping_process.phpをインクルード
     require_once('./shopping_process.php');
     ?>
 

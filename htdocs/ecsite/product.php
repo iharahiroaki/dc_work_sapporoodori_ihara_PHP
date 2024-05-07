@@ -66,6 +66,11 @@
         </div>
     </nav>
 
+    <?php 
+    // product_process.phpをインクルード
+    require_once('./product_process.php');
+    ?>
+
     <div class="container product-container">
         <h1>商品管理ページ</h1>
 
