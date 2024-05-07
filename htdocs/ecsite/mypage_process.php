@@ -12,6 +12,10 @@ $dbh = dbConnect();
 // function.phpの読み込み
 require_once('./function.php');
 
+// データを取得
+$table = 'product';
+$allProducts = getAllData($dbh, $table);
+
 // もし未ログインであれば、index.phpにリダイレクト
 checkLogin();
 
@@ -25,6 +29,8 @@ $user_id = $_SESSION['user_id'];
 $stmt = $dbh->prepare("SELECT * FROM purchase_history WHERE user_id = ?"); // $pdoではなく$dbhを使用する
 $stmt->execute([$user_id]);
 $purchase_history = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+var_dump($purchase_history);
 
 include_once('./mypage.php');
 ?>

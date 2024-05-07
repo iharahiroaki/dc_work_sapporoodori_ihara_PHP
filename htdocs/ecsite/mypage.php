@@ -36,6 +36,11 @@
         </div>
     </nav>
 
+    <?php 
+    // mypage_process.phpをインクルード
+    require_once('./mypage_process.php');
+    ?>
+
     <div class="container mypage-container">
         <h1>マイページ</h1>
         <p>ようこそ、<?= $_SESSION['username'] ?>さん</p>
