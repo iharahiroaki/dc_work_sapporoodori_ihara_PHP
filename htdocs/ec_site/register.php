@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $existingUser = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($existingUser) {
-             // JavaScriptを使用してエラーメッセージを表示
+             // エラーメッセージを表示
              echo "<script>alert('このユーザーIDは既に使用されています。');</script>";
              // ページに留まる
              echo "<script>window.location = './register.php';</script>";

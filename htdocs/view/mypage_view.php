@@ -36,8 +36,8 @@
         </div>
     </nav>
 
+    <!-- mypage.phpをインクルード -->
     <?php 
-    // mypage.phpをインクルード
     require_once('../ec_site/mypage.php');
     ?>
 

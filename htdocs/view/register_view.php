@@ -35,7 +35,6 @@
 </head>
 
 <body>
-    <!-- Bootstrap Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="#">フライフィッシングの毛鉤専門ショップ</a>
@@ -68,8 +67,8 @@
     // 登録成功時のメッセージを表示
     if (isset($_GET['success']) && $_GET['success'] == 'true') {
         echo "<p class=\"message\">ユーザー登録が完了しました！<br>3秒後にログインページに自動で移ります。</p>";
-        // リダイレクト
-        header('Refresh: 3; URL=../ec_site/index.php'); // 3秒後にindex.phpにリダイレクト
+        // 3秒後にindex.phpにリダイレクト
+        header('Refresh: 3; URL=../ec_site/index.php');
         exit;
     }
     ?>

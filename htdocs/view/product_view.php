@@ -66,8 +66,8 @@
         </div>
     </nav>
 
+    <!-- product.phpをインクルード -->
     <?php 
-    // product_process.phpをインクルード
     require_once('../ec_site/product.php');
     ?>
 

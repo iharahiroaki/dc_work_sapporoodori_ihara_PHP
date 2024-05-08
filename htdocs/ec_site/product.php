@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
         header('Location: ./product.php');
         exit;
     } else {
-        // フォームからのデータが提供されていない場合はエラーメッセージを出力するか、適切な処理を行います。
+        // フォームからのデータが提供されていない場合はエラーメッセージを出力
         echo "フォームからのデータが提供されていません。";
     }
 }

@@ -12,7 +12,6 @@
 
 </head>
 <body>
-    <!-- Bootstrap Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="#">フライフィッシングの毛鉤専門ショップ</a>
@@ -37,8 +36,8 @@
         </div>
     </nav>
     
+    <!-- shopping.phpをインクルード -->
     <?php 
-    // shopping_process.phpをインクルード
     require_once('../ec_site/shopping.php');
     ?>
 

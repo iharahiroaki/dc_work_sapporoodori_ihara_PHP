@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['purchase'])) {
             $stmt->execute([$new_quantity, $item['product_id']]);
         }
 
-        // 購入した商品の情報をセッションに保存（価格も含める）
+        // 購入した商品の情報をセッションに保存
         $purchase_items = [];
         foreach ($cart_items as $item) {
             $product_info = getProductInfo($dbh, $item['product_id']);

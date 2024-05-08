@@ -26,7 +26,7 @@ if (isset($_POST['logout'])) {
 
 // ログインユーザーの購入履歴を取得する
 $user_id = $_SESSION['user_id'];
-$stmt = $dbh->prepare("SELECT * FROM purchase_history WHERE user_id = ?"); // $pdoではなく$dbhを使用する
+$stmt = $dbh->prepare("SELECT * FROM purchase_history WHERE user_id = ?");
 $stmt->execute([$user_id]);
 $purchase_history = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

@@ -24,11 +24,13 @@
         <form action="../ec_site/index.php" method="post" class="login-form">
             <div class="form-group">
                 <label for="username" class="login-label">ユーザーID:</label>
-                <input type="text" name="username" id="username" autocomplete="off" required><br><br> <!-- ※required属性でnull禁止 -->
+                <!-- ※required属性でnull禁止 -->
+                <input type="text" name="username" id="username" autocomplete="off" required><br><br>
             </div>
             <div class="form-group">
                 <label for="password" class="login-label">パスワード:</label>
-                <input type="password" name="password" id="password" autocomplete="off" required><br><br> <!-- ※required属性でnull禁止 -->
+                <!-- ※required属性でnull禁止 -->
+                <input type="password" name="password" id="password" autocomplete="off" required><br><br>
             </div>
             <input type="submit" value="ログイン">
         </form>
