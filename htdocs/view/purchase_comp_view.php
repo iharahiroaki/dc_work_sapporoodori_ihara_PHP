@@ -22,13 +22,13 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav ms-auto d-flex align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="../ecsite/shopping.php">商品一覧</a>
+                        <a class="nav-link" href="../ec_site/shopping.php">商品一覧</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../ecsite/mypage.php">マイページ</a>
+                        <a class="nav-link" href="../ec_site/mypage.php">マイページ</a>
                     </li>
                     <li class="nav-item">
-                        <form action="../ecsite/purchase_comp.php" method="post" class="nav-link">
+                        <form action="../ec_site/purchase_comp.php" method="post" class="nav-link">
                             <button type="submit" name="logout" class="btn btn-danger">ログアウト</button>
                         </form>
                     </li>

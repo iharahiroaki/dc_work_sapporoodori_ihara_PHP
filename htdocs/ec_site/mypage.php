@@ -3,7 +3,7 @@
 session_start();
 
 // ブラウザにエラーを表示
-ini_set('display_errors', "On");
+// ini_set('display_errors', "On");
 
 // データベースに接続
 require_once('../model/dbConnect.php');
@@ -30,7 +30,4 @@ $stmt = $dbh->prepare("SELECT * FROM purchase_history WHERE user_id = ?"); // $p
 $stmt->execute([$user_id]);
 $purchase_history = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-var_dump($purchase_history);
-
 include_once('../view/mypage_view.php');
-?>

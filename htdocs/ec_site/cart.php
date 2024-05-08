@@ -3,7 +3,7 @@
 session_start();
 
 // ブラウザにエラーを表示
-ini_set('display_errors', "On");
+// ini_set('display_errors', "On");
 
 // セッションからカートの商品情報を取得
 $cart_items = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
     });
     $_SESSION['cart'] = $cart_items;
     // ページをリロードして削除後の状態を反映
-    header('Location: ../ecsite/cart.php');
+    header('Location: ../ec_site/cart.php');
     exit;
 }
 
@@ -114,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['purchase'])) {
         $_SESSION['cart'] = [];
 
         // 購入完了ページにリダイレクト
-        header("Location: ../ecsite/purchase_comp.php");
+        header("Location: ../ec_site/purchase_comp.php");
         exit;
     }
 }
@@ -138,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $_SESSION['cart'] = $cart_items;
     
     // ページをリロードして数量変更後の状態を反映
-    header('Location: ../ecsite/cart.php');
+    header('Location: ../ec_site/cart.php');
     exit;
 }
 
@@ -150,5 +150,3 @@ foreach ($cart_items as $item) {
 }
 
 include_once('../view/cart_view.php');
-
-?>

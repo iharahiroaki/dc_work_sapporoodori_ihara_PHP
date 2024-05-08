@@ -22,13 +22,13 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav ms-auto d-flex align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="../ecsite/shopping.php">商品一覧</a>
+                        <a class="nav-link" href="../ec_site/shopping.php">商品一覧</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../ecsite/mypage.php">マイページ</a>
+                        <a class="nav-link" href="../ec_site/mypage.php">マイページ</a>
                     </li>
                     <li class="nav-item">
-                        <form action="../ecsite/cart.php" method="post" class="nav-link">
+                        <form action="../ec_site/cart.php" method="post" class="nav-link">
                             <button type="submit" name="logout" class="btn btn-danger">ログアウト</button>
                         </form>
                     </li>
@@ -62,7 +62,7 @@
                             <td><?= htmlspecialchars($product_info['product_name'], ENT_QUOTES) ?></td>
                             <td><?= number_format($product_info['price']) ?>円</td>
                             <td>
-                                <form action="" method="post">
+                                <form action="" method="post" onsubmit="return confirmQuantityChange()">
                                     <input type="hidden" name="product_id" value="<?= htmlspecialchars($product_info['product_id'], ENT_QUOTES) ?>">
                                     <input type="number" name="quantity" value="<?= $item['quantity'] ?>" min="1">
                                     <button type="submit" name="update" class="btn btn-primary">変更</button>
@@ -70,10 +70,23 @@
                             </td>
                             <td><?= number_format($product_info['price'] * $item['quantity']) ?>円</td>
                             <td>
-                                <form action="" method="post">
+                                <form action="" method="post" onsubmit="return confirmDelete()">
                                     <button type="submit" name="delete" value="<?= htmlspecialchars($item['product_id'], ENT_QUOTES) ?>" class="btn btn-danger">削除</button>
                                 </form>
                             </td>
+
+                            <script>
+                                // 数量変更の確認メッセージを表示する関数
+                                function confirmQuantityChange() {
+                                    return confirm('商品の数量が変更されました');
+                                }
+
+                                // 削除の確認メッセージを表示する関数
+                                function confirmDelete() {
+                                    return confirm('商品がカートから削除されました');
+                                }
+                            </script>
+
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

@@ -1,6 +1,18 @@
 <?php
+// セッションを開始
+session_start();
+
+// ブラウザにエラーを表示
+// ini_set('display_errors', "On");
+
 // データベースに接続
 require_once('../model/dbConnect.php');
+
+// もしログイン済みであれば、shopping.phpにリダイレクト
+if (isset($_SESSION['username'])) {
+    header("Location: ../ec_site/shopping.php");
+    exit;
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];

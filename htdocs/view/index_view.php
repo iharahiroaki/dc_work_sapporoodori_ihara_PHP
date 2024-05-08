@@ -21,7 +21,7 @@
                 alert("<?php echo htmlspecialchars($error_message, ENT_QUOTES); ?>");
             </script>
         <?php endif; ?>
-        <form action="../ecsite/index.php" method="post" class="login-form">
+        <form action="../ec_site/index.php" method="post" class="login-form">
             <div class="form-group">
                 <label for="username" class="login-label">ユーザーID:</label>
                 <input type="text" name="username" id="username" autocomplete="off" required><br><br> <!-- ※required属性でnull禁止 -->
@@ -33,7 +33,7 @@
             <input type="submit" value="ログイン">
         </form>
         <br>
-        <a href="../ecsite/register.php" class="signup">新規登録はここをクリック！</a>
+        <a href="../ec_site/register.php" class="signup">新規登録はここをクリック！</a>
     </div>
 </body>
 </html>

@@ -57,7 +57,7 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav ms-auto d-flex align-items-center">
                     <li class="nav-item">
-                        <form action="../ecsite/product.php" method="post" class="nav-link">
+                        <form action="../ec_site/product.php" method="post" class="nav-link">
                             <button type="submit" name="logout" class="btn btn-danger">ログアウト</button>
                         </form>
                     </li>
@@ -68,7 +68,7 @@
 
     <?php 
     // product_process.phpをインクルード
-    require_once('../ecsite/product.php');
+    require_once('../ec_site/product.php');
     ?>
 
     <div class="container product-container">
@@ -76,7 +76,7 @@
 
         <div class="sub-title-container">
             <h3 class="sub-title">商品登録フォーム</h3>
-                <form action="../ecsite/product.php" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                <form action="../ec_site/product.php" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
                     <label for="product_name">商品名　　:</label>
                     <input type="text" id="product_name" name="product_name" required><br>
         
@@ -86,7 +86,7 @@
                     <label for="quantity">個　数　　:</label>
                     <input type="number" id="quantity" name="quantity" required><br>
 
-                    <label for="public_flag">公開フラグ:</label>
+                    <label for="public_flag">公開ステータス:</label>
                     <select id="public_flag" name="public_flag">
                         <option value="1">公開</option>
                         <option value="0">非公開</option>
@@ -110,7 +110,7 @@
                     <th>商品名</th>
                     <th>価格</th>
                     <th>在庫数</th>
-                    <th>公開フラグ</th>
+                    <th>公開ステータス</th>
                     <th>操作</th>
                 </tr>
                 
@@ -122,7 +122,7 @@
                             <td><?= $product['price'] ?>円</td>
                             <!-- 在庫数を変更するフォーム -->
                             <td>
-                                <form action="./product_process.php" method="post">
+                                <form action="./product.php" method="post">
                                     <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
                                     <input type="number" name="quantity" value="<?= $product['quantity'] ?>" min="0" required>
                                     <button type="submit">変更</button>
@@ -130,7 +130,7 @@
                             </td>
                             <!-- 公開フラグを変更するフォーム -->
                             <td>
-                                <form action="../ecsite/product.php" method="post">
+                                <form action="../ec_site/product.php" method="post">
                                     <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
                                     <select name="public_flag">
                                         <option value="1" <?php if ($product['public_flag'] == 1) echo 'selected'; ?>>公開</option>
@@ -140,7 +140,7 @@
                                 </form>
                             </td>
                             <!-- 商品を削除するaリンク -->
-                            <td><a href="../ecsite/product.php?id=<?= $product['product_id'] ?>">削除</a></td>
+                            <td><a href="../ec_site/product.php?id=<?= $product['product_id'] ?>">削除</a></td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>

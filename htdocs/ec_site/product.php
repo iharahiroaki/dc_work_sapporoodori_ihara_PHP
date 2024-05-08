@@ -2,10 +2,8 @@
 // セッションを開始
 session_start();
 
-var_dump($_SESSION);
-
 // ブラウザにエラーを表示
-ini_set('display_errors', "On");
+// ini_set('display_errors', "On");
 
 // データベースに接続
 require_once('../model/dbConnect.php');
@@ -20,8 +18,7 @@ checkLogin();
 // データを取得
 $table = 'product';
 $allProducts = getAllData($dbh, $table);
-
-var_dump($allProducts);
+// var_dump($allProducts);
 
 // ログアウト処理
 if (isset($_POST['logout'])) {
@@ -127,10 +124,6 @@ if(isset($_GET['id'])) {
     // 商品一覧ページにリダイレクト
     header('Location: ./product.php');
     exit;
-} else {
-    // 商品IDが渡されていない場合はエラーメッセージを表示するなどの処理を行う
-    echo "削除する商品が指定されていません。";
 }
 
 include_once('../view/product_view.php');
-?>

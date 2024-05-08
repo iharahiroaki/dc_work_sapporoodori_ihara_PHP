@@ -3,7 +3,7 @@
 session_start();
 
 // ブラウザにエラーを表示
-ini_set('display_errors', "On");
+// ini_set('display_errors', "On");
 
 // データベースに接続
 require_once('../model/dbConnect.php');
@@ -20,8 +20,8 @@ if (isset($_POST['logout'])) {
     logout();
 }
 // ログアウト後にセッションIDを取得し、表示する
-$new_session_id = session_id();
-echo "ログアウト後のセッションID: " . $new_session_id;
+// $new_session_id = session_id();
+// echo "ログアウト後のセッションID: " . $new_session_id;
 
 // 公開フラグが「公開」の商品のみを取得
 $table = 'product';
@@ -71,5 +71,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 include_once('../view/shopping_view.php');
-
-?>

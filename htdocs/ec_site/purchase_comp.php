@@ -3,7 +3,7 @@
 session_start();
 
 // ブラウザにエラーを表示
-ini_set('display_errors', "On");
+// ini_set('display_errors', "On");
 
 // データベースに接続
 require_once('../model/dbConnect.php');
@@ -44,4 +44,3 @@ if (isset($_SESSION['purchase_items'])) {
 unset($_SESSION['purchase_items']);
 
 include_once('../view/purchase_comp_view.php');
-?>

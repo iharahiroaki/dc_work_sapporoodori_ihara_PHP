@@ -3,7 +3,7 @@
 session_start();
 
 // ブラウザにエラーを表示
-ini_set('display_errors', "On");
+// ini_set('display_errors', "On");
 
 // データベースに接続
 require_once('../model/dbConnect.php');
@@ -14,7 +14,7 @@ require_once('../model/function.php');
 
 // もしログイン済みであれば、shopping.phpにリダイレクト
 if (isset($_SESSION['username'])) {
-    header("Location: ../ecsite/shopping.php");
+    header("Location: ../ec_site/shopping.php");
     exit;
 }
 
@@ -29,12 +29,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = htmlspecialchars($password, ENT_QUOTES);
 
     // 分岐1: ユーザーIDとパスワードが指定の値であれば、product.phpに遷移する
-    if ($username === 'ec.admin' && $password === 'ec.admin') {
+    if ($username === 'ec_admin' && $password === 'ec_admin') {
         // 管理者フラグをセッションに設定
         $_SESSION['admin'] = true;
         // 管理者用のセッションにユーザー情報を保存
         $_SESSION['username'] = $username;
-        header("Location: ../ecsite/product.php");
+        header("Location: ../ec_site/product.php");
         exit;
     } else {
         // データベースからユーザー情報を取得し、ユーザーIDとパスワードを検証する
@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $session_id = session_id();
             // ユーザーテーブルにセッションIDを保存
             save_session_id_to_database($username, $session_id, $dbh);
-            header("Location: ../ecsite/shopping.php");
+            header("Location: ../ec_site/shopping.php");
             exit;
         } else {
             // 分岐3: データベースに格納された情報と不一致ならば、エラーメッセージを表示してindex.phpに戻る
@@ -76,9 +76,4 @@ function save_session_id_to_database($username, $session_id, $dbh) {
     $stmt->execute();
 }
 
-var_dump($_SESSION);
-
-echo session_id();
-
 include_once('../view/index_view.php');
-?>
