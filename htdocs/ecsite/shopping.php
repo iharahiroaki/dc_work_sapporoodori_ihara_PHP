@@ -6,11 +6,11 @@ session_start();
 ini_set('display_errors', "On");
 
 // データベースに接続
-require_once('../../include/model/dbConnect.php');
+require_once('../model/dbConnect.php');
 $dbh = dbConnect();
 
 // function.phpの読み込み
-require_once('../../include/model/function.php');
+require_once('../model/function.php');
 
 // もし未ログインであれば、index.phpにリダイレクト
 checkLogin();
@@ -70,6 +70,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-include_once('../../include/view/shopping_view.php');
+include_once('../view/shopping_view.php');
 
 ?>

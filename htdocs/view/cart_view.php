@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="./stylesheet/cart_styles.css">
+    <link rel="stylesheet" href="../view/stylesheet/cart_styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="path/to/bootstrap.min.css">
 
@@ -22,13 +22,13 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav ms-auto d-flex align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="../../include/view/shopping_view.php">商品一覧</a>
+                        <a class="nav-link" href="../ecsite/shopping.php">商品一覧</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../../include/view/mypage_view.php">マイページ</a>
+                        <a class="nav-link" href="../ecsite/mypage.php">マイページ</a>
                     </li>
                     <li class="nav-item">
-                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="nav-link">
+                        <form action="../ecsite/cart.php" method="post" class="nav-link">
                             <button type="submit" name="logout" class="btn btn-danger">ログアウト</button>
                         </form>
                     </li>

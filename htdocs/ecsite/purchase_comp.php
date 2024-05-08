@@ -6,11 +6,11 @@ session_start();
 ini_set('display_errors', "On");
 
 // データベースに接続
-require_once('./dbConnect.php');
+require_once('../model/dbConnect.php');
 $dbh = dbConnect();
 
 // function.phpの読み込み
-require_once('./function.php');
+require_once('../model/function.php');
 
 // もし未ログインであれば、index.phpにリダイレクト
 checkLogin();
@@ -42,4 +42,6 @@ if (isset($_SESSION['purchase_items'])) {
 
 // 購入が完了したらセッション内の購入情報を削除
 unset($_SESSION['purchase_items']);
+
+include_once('../view/purchase_comp_view.php');
 ?>

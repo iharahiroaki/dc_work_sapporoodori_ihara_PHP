@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>毛鉤専門ショップ_ログインページ</title>
 
-    <link rel="stylesheet" href="../../include/view/stylesheet/index_styles.css">
+    <link rel="stylesheet" href="../view/stylesheet/index_styles.css">
 
 </head>
 <body>
@@ -21,7 +21,7 @@
                 alert("<?php echo htmlspecialchars($error_message, ENT_QUOTES); ?>");
             </script>
         <?php endif; ?>
-        <form action="../../htdocs/ecsite/index.php" method="post" class="login-form">
+        <form action="../ecsite/index.php" method="post" class="login-form">
             <div class="form-group">
                 <label for="username" class="login-label">ユーザーID:</label>
                 <input type="text" name="username" id="username" autocomplete="off" required><br><br> <!-- ※required属性でnull禁止 -->
@@ -33,7 +33,7 @@
             <input type="submit" value="ログイン">
         </form>
         <br>
-        <a href="../../htdocs/ecsite/register.php" class="signup">新規登録はここをクリック！</a>
+        <a href="../ecsite/register.php" class="signup">新規登録はここをクリック！</a>
     </div>
 </body>
 </html>

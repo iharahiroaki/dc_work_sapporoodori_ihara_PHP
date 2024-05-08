@@ -6,15 +6,15 @@ session_start();
 ini_set('display_errors', "On");
 
 // データベースに接続
-require_once('../../include/model/dbConnect.php');
+require_once('../model/dbConnect.php');
 $dbh = dbConnect();
 
 // function.phpの読み込み
-require_once('../../include/model/function.php');
+require_once('../model/function.php');
 
 // もしログイン済みであれば、shopping.phpにリダイレクト
 if (isset($_SESSION['username'])) {
-    header("Location: ../../include/view/shopping_view.php");
+    header("Location: ../ecsite/shopping.php");
     exit;
 }
 
@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['admin'] = true;
         // 管理者用のセッションにユーザー情報を保存
         $_SESSION['username'] = $username;
-        header("Location: ../../include/view/product_view.php");
+        header("Location: ../ecsite/product.php");
         exit;
     } else {
         // データベースからユーザー情報を取得し、ユーザーIDとパスワードを検証する
@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $session_id = session_id();
             // ユーザーテーブルにセッションIDを保存
             save_session_id_to_database($username, $session_id, $dbh);
-            header("Location: ../../include/view/shopping_view.php");
+            header("Location: ../ecsite/shopping.php");
             exit;
         } else {
             // 分岐3: データベースに格納された情報と不一致ならば、エラーメッセージを表示してindex.phpに戻る
@@ -80,5 +80,5 @@ var_dump($_SESSION);
 
 echo session_id();
 
-include_once('../../include/view/index_view.php');
+include_once('../view/index_view.php');
 ?>

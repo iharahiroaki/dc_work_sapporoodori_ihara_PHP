@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>毛鉤専門ショップ_商品一覧ページ</title>
     
-    <link rel="stylesheet" href="./stylesheet/shopping_styles.css">
+    <link rel="stylesheet" href="../view/stylesheet/shopping_styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="path/to/bootstrap.min.css">
 
@@ -22,13 +22,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto d-flex align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="../../include/view/cart_view.php">買い物カゴ</a>
+                        <a class="nav-link" href="../ecsite/cart.php">買い物カゴ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../../include/view/mypage_view.php">マイページ</a>
+                        <a class="nav-link" href="../ecsite/mypage.php">マイページ</a>
                     </li>
                     <li class="nav-item">
-                        <form action="../../htdocs/ecsite/shopping.php" method="post" class="nav-link">
+                        <form action="../ecsite/shopping.php" method="post" class="nav-link">
                             <button type="submit" name="logout" class="btn btn-danger">ログアウト</button>
                         </form>
                     </li>
@@ -39,14 +39,14 @@
     
     <?php 
     // shopping_process.phpをインクルード
-    require_once('../../htdocs/ecsite/shopping.php');
+    require_once('../ecsite/shopping.php');
     ?>
 
     <div class="container text-center">
         <h1>ショッピングページ</h1>
         <p>ようこそ、<?php echo htmlspecialchars($_SESSION['username'], ENT_QUOTES); ?> さん</p>
         
-        <strong class="h6 text-danger"><a href="../../htdocs/ecsite/cart_view.php" class="text-danger">買い物カゴ</a>は、
+        <strong class="h6 text-danger"><a href="../ecsite/cart.php" class="text-danger">買い物カゴ</a>は、
         <?php
             if(isset($_SESSION["cart"]) && count($_SESSION["cart"]) > 0) {
                 echo count($_SESSION["cart"]) . "商品が入っています。";

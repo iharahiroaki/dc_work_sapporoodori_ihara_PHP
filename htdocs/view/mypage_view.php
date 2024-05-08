@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="./stylesheet/mypage_styles.css">
+    <link rel="stylesheet" href="../view/stylesheet/mypage_styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="path/to/bootstrap.min.css">
 
@@ -21,13 +21,13 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav ms-auto d-flex align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="./shopping.php">商品一覧</a>
+                        <a class="nav-link" href="../ecsite/shopping.php">商品一覧</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./cart.php">買い物カゴ</a>
+                        <a class="nav-link" href="../ecsite/cart.php">買い物カゴ</a>
                     </li>
                     <li class="nav-item">
-                        <form action="./index.php" method="post" class="nav-link">
+                        <form action="../ecsite/mypage.php" method="post" class="nav-link">
                             <button type="submit" name="logout" class="btn btn-danger">ログアウト</button>
                         </form>
                     </li>
@@ -37,8 +37,8 @@
     </nav>
 
     <?php 
-    // mypage_process.phpをインクルード
-    require_once('./mypage_process.php');
+    // mypage.phpをインクルード
+    require_once('../ecsite/mypage.php');
     ?>
 
     <div class="container mypage-container">

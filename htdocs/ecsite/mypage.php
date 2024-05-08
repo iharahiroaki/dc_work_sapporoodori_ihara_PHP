@@ -6,11 +6,11 @@ session_start();
 ini_set('display_errors', "On");
 
 // データベースに接続
-require_once('./dbConnect.php');
+require_once('../model/dbConnect.php');
 $dbh = dbConnect();
 
 // function.phpの読み込み
-require_once('./function.php');
+require_once('../model/function.php');
 
 // データを取得
 $table = 'product';
@@ -32,5 +32,5 @@ $purchase_history = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 var_dump($purchase_history);
 
-include_once('./mypage.php');
+include_once('../view/mypage_view.php');
 ?>

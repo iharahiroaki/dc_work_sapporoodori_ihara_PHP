@@ -1,5 +1,6 @@
 <?php
-require_once('./dbConnect.php');
+// データベースに接続
+require_once('../model/dbConnect.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
@@ -56,4 +57,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-include_once('./register.php');
+include_once('../view/register_view.php');

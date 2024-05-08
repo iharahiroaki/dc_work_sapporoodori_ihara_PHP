@@ -7,18 +7,15 @@ var_dump($_SESSION);
 // ブラウザにエラーを表示
 ini_set('display_errors', "On");
 
-// もし未ログインであれば、index.phpにリダイレクト
-if (!isset($_SESSION['username'])) {
-    header("Location: ./index.php");
-    exit;
-}
-
 // データベースに接続
-require_once './dbConnect.php';
+require_once('../model/dbConnect.php');
 $dbh = dbConnect();
 
 // function.phpの読み込み
-require_once('./function.php');
+require_once('../model/function.php');
+
+// もし未ログインであれば、index.phpにリダイレクト
+checkLogin();
 
 // データを取得
 $table = 'product';
@@ -135,5 +132,5 @@ if(isset($_GET['id'])) {
     echo "削除する商品が指定されていません。";
 }
 
-include_once('./product.php');
+include_once('../view/product_view.php');
 ?>

@@ -31,7 +31,7 @@ function getPublicProducts($dbh, $table) {
 // もし未ログインであれば、index.phpにリダイレクトする関数
 function checkLogin () {
     if (!isset($_SESSION['username'])) {
-    header("Location: ../../include/view/shopping_view.php");
+    header("Location: ../ecsite/index.php");
     exit;
     }
 }
@@ -42,7 +42,7 @@ function logout() {
     session_unset();
     session_destroy();
     // ログアウト後はログインページにリダイレクトする
-    header("Location: ../../include/view/index_view.php");
+    header("Location: ../ecsite/index.php");
     exit;        
 }
 

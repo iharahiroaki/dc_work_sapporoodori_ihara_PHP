@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="./stylesheet/product_styles.css">
+    <link rel="stylesheet" href="../view/stylesheet/product_styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="path/to/bootstrap.min.css">
 
@@ -57,7 +57,7 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav ms-auto d-flex align-items-center">
                     <li class="nav-item">
-                        <form action="./product_process.php" method="post" class="nav-link">
+                        <form action="../ecsite/product.php" method="post" class="nav-link">
                             <button type="submit" name="logout" class="btn btn-danger">ログアウト</button>
                         </form>
                     </li>
@@ -68,7 +68,7 @@
 
     <?php 
     // product_process.phpをインクルード
-    require_once('./product_process.php');
+    require_once('../ecsite/product.php');
     ?>
 
     <div class="container product-container">
@@ -76,7 +76,7 @@
 
         <div class="sub-title-container">
             <h3 class="sub-title">商品登録フォーム</h3>
-                <form action="./product_process.php" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                <form action="../ecsite/product.php" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
                     <label for="product_name">商品名　　:</label>
                     <input type="text" id="product_name" name="product_name" required><br>
         
@@ -130,7 +130,7 @@
                             </td>
                             <!-- 公開フラグを変更するフォーム -->
                             <td>
-                                <form action="./product_process.php" method="post">
+                                <form action="../ecsite/product.php" method="post">
                                     <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
                                     <select name="public_flag">
                                         <option value="1" <?php if ($product['public_flag'] == 1) echo 'selected'; ?>>公開</option>
@@ -140,7 +140,7 @@
                                 </form>
                             </td>
                             <!-- 商品を削除するaリンク -->
-                            <td><a href="./delete_product.php?id=<?= $product['product_id'] ?>">削除</a></td>
+                            <td><a href="../ecsite/product.php?id=<?= $product['product_id'] ?>">削除</a></td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
