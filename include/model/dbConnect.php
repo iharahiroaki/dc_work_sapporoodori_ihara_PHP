@@ -19,7 +19,7 @@ function dbConnect() {
     return $dbh;
 }
 
-// 接続先　https://portfolio02.dc-itex.com/sapporoodori/0001/include/view/index_view.php
+// 接続先　https://portfolio02.dc-itex.com/sapporoodori/0001/ecsite/index.php
 // BASIC認証
 //  ユーザー名　user
 //  BASIC認証パスワード　rR34bgzf

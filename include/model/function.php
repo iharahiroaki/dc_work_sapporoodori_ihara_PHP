@@ -31,7 +31,7 @@ function getPublicProducts($dbh, $table) {
 // もし未ログインであれば、index.phpにリダイレクトする関数
 function checkLogin () {
     if (!isset($_SESSION['username'])) {
-    header("Location: ./shopping.php");
+    header("Location: ../../include/view/shopping_view.php");
     exit;
     }
 }
@@ -42,7 +42,7 @@ function logout() {
     session_unset();
     session_destroy();
     // ログアウト後はログインページにリダイレクトする
-    header("Location: ./index.php");
+    header("Location: ../../include/view/index_view.php");
     exit;        
 }
 
