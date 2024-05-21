@@ -32,10 +32,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // 入力の検証
     if(empty($username) || empty($password)) {
         $error_message = "ユーザーIDおよびパスワードを入力してください。";
-    } else if (!preg_match('/^[a-zA-Z0-9]{5,}$/', $username)) {
-        $error_message = "ユーザーIDの形式が正しくありません"
-    } else if (!preg_match('/^[a-zA-Z0-9]{8,}$/', $password)) {
-        $error_message = "パスワードの形式が正しくありません"
+    } else if (!preg_match('/^[a-zA-Z0-9_]{5,}$/', $username)) {
+        $error_message = "ユーザーIDは半角英数字、5文字以上で入力してください。";
+    } else if (!preg_match('/^[a-zA-Z0-9_]{8,}$/', $password)) {
+        $error_message = "パスワードは半角英数字、8文字以上で入力してください。";
     } else {
         // 分岐1: ユーザーIDとパスワードが指定の値であれば、product.phpに遷移する
         if ($username === 'ec_admin' && $password === 'ec_admin') {
@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             // データベースからユーザー情報を取得し、ユーザーIDとパスワードを検証する
             $stmt = $dbh->prepare("SELECT * FROM user WHERE user_name = :username");
-            $stmt->bindParam(':username', $username);
+            $stmt->bindParam(':username', $username, PDO::PARAM_STR);
             $stmt->execute();
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
     
@@ -62,7 +62,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['username'] = $username;
                 // ユーザーIDをセッションに保存
                 $_SESSION['user_id'] = $user['user_id'];
-                // ユーザーテーブルにセッションIDを保存する処理を追加する
                 // 現在のセッションIDを取得
                 $session_id = session_id();
                 // ユーザーテーブルにセッションIDを保存
@@ -70,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header("Location: ../ec_site/shopping.php");
                 exit;
             } else {
-                // 分岐3: データベースに格納された情報と不一致ならば、エラーメッセージを表示してindex.phpに戻る
+                // 分岐3: データベースに格納された情報と不一致の場合、エラーメッセージを表示
                 $error_message = "ユーザーIDまたはパスワードが間違っています。";
             }
         }
@@ -81,8 +80,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 function save_session_id_to_database($username, $session_id, $dbh) {
     // ユーザー名に対応するレコードのセッションIDを更新する
     $stmt = $dbh->prepare("UPDATE user SET session_id = :session_id WHERE user_name = :username");
-    $stmt->bindParam(':session_id', $session_id);
-    $stmt->bindParam(':username', $username);
+    $stmt->bindParam(':session_id', $session_id, PDO::PARAM_STR);
+    $stmt->bindParam(':username', $username, PDO::PARAM_STR);
     $stmt->execute();
 }
 

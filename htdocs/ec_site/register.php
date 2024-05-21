@@ -3,7 +3,7 @@
 session_start();
 
 // ブラウザにエラーを表示
-// ini_set('display_errors', "On");
+ini_set('display_errors', "On");
 
 // データベースに接続
 require_once('../model/dbConnect.php');
@@ -15,8 +15,8 @@ if (isset($_SESSION['username'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $username = htmlspecialchars(trim($_POST['username']), ENT_QUOTES, 'UTF-8');
+    $password = htmlspecialchars(trim($_POST['password']), ENT_QUOTES, 'UTF-8');
 
     // ユーザーIDとパスワードのバリデーション
     $usernameRegex = '/^[a-zA-Z0-9]{5,}$/'; // ユーザーIDの正規表現
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // ユーザーIDの重複をチェック
         $stmt = $dbh->prepare("SELECT * FROM user WHERE user_name = :username");
-        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
         $stmt->execute();
         $existingUser = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -55,9 +55,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
         $stmt = $dbh->prepare("INSERT INTO user (user_name, password) VALUES (:username, :password)");
-        $stmt->bindParam(':username', $username);
-        $stmt->bindParam(':password', $hashed_password);
+        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+        $stmt->bindParam(':password', $hashed_password, PDO::PARAM_STR);
         $stmt->execute();
+
+        // セッションハイジャック対策
+        session_regenerate_id(true);
 
         // 登録成功時は登録完了のメッセージを表示してリダイレクト
         header('Location: ./register.php?success=true');
