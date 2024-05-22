@@ -3,7 +3,7 @@
 session_start();
 
 // ブラウザにエラーを表示
-// ini_set('display_errors', "On");
+ini_set('display_errors', "On");
 
 // データベースに接続
 require_once('../model/dbConnect.php');
@@ -54,19 +54,34 @@ function addToCart($user_id, $product_id, $quantity) {
 // カートに商品を追加する処理
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['product_id'], $_POST['num'])) {
-        $product_id = $_POST['product_id'];
-        $num = $_POST['num'];
+        $product_id = filter_input(INPUT_POST, 'product_id', FILTER_VALIDATE_INT);
+        $num = filter_input(INPUT_POST, 'num', FILTER_VALIDATE_INT);
         
+        // 入力バリデーション
+        if ($product_id === false || $num === false || $num<= 0) {
+            // 無効な入力の場合、エラーメッセージを表示
+            header('Location: ./shopping.php?error=invalid_input');
+            exit;
+        }
+
         // 在庫数を確認
-        $stmt = $dbh->prepare("SELECT quantity FROM product WHERE product_id = ?");
-        $stmt->execute([$product_id]);
+        $stmt = $dbh->prepare("SELECT quantity FROM product WHERE product_id = :product_id");
+        $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
+        $stmt->execute();
         $available_quantity = $stmt->fetchColumn();
         
         // ユーザーIDをセッションから取得
         $user_id = $_SESSION['user_id'];
 
         // カートに商品を追加する処理
-        addToCart($user_id, $product_id, min($num, $available_quantity));
+        if ($available_quantity !== false && $available_quantity > 0) {
+            // 在庫がある場合、カートに追加
+            addToCart($user_id, $product_id, min($num, $available_quantity));
+        } else {
+            // 在庫がない場合、エラーメッセージを表示
+            header('Location: ./shopping.php?error=out_of_stock');
+            exit;
+        }
     }
 }
 
