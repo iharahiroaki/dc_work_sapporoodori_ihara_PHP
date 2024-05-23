@@ -3,7 +3,7 @@
 session_start();
 
 // ブラウザにエラーを表示
-// ini_set('display_errors', "On");
+ini_set('display_errors', "On");
 
 // データベースに接続
 require_once('../model/dbConnect.php');
@@ -24,14 +24,40 @@ if (isset($_POST['logout'])) {
 $purchase_items = isset($_SESSION['purchase_items']) ? $_SESSION['purchase_items'] : [];
 
 // 購入履歴をデータベースに保存する処理
-if (!empty($purchase_items)) {
+if (!empty($purchase_items) && isset($_SESSION['user_id']) && is_int($_SESSION['user_id']) && $_SESSION['user_id'] > 0) {
     try {
-        $stmt = $dbh->prepare("INSERT INTO purchase_history (user_id, product_id, quantity, purchase_date) VALUES (?, ?, ?, ?)");
+        // トランザクションの開始
+        $dbh->beginTransaction();
+
+        // SQL文の準備
+        $stmt = $dbh->prepare("INSERT INTO purchase_history (user_id, product_id, quantity, purchase_date) VALUES (:user_id, :product_id, :quantity, :purchase_date)");
+
+        // データのバリデーションと保存
         foreach ($purchase_items as $item) {
-            $stmt->execute([$_SESSION['user_id'], $item['product_id'], $item['quantity'], date('Y-m-d H:i:s')]);
+            if (isset($item['product_id'], $item['quantity']) || !is_int($item['pruduct_id']) || !is_int($item['quantity']) || $item['quantity'] <= 0) {
+                throw new Exception('購入情報が不正です。');
+            }
+
+            // パラメータのバインド
+            $stmt->bindParam(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+            $stmt->bindParam(':product_id', $item['product_id'], PDO::PARAM_INT);
+            $stmt->bindParam(':quantity', $item['quantity'], PDO::PARAM_INT);
+            $stmt->bindParam(':purchase_date', date('Y-m-d H:i:s'), PDO::PARAM_STR);
+
+            // SQL文の実行
+            $stmt->execute();
         }
+
+        // トランザクションのコミット
+        $dbh->commit();
     } catch (PDOException $e) {
-        echo '購入履歴の保存に失敗しました。' . $e->getMessage();
+        // トランザクションのロールバック
+        $dbh->rollBack();
+        echo '購入履歴の保存に失敗しました。' . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
+    } catch (Exception $e) {
+        // その他の例外処理
+        $dbh->rollBack();
+        echo 'エラーが発生しました。' . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
     }
 }
 
