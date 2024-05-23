@@ -56,7 +56,7 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav ms-auto d-flex align-items-center">
                     <li class="nav-item">
-                        <form action="../ec_site/product.php" method="post" class="nav-link">
+                        <form action="./product.php" method="post" class="nav-link">
                             <button type="submit" name="logout" class="btn btn-danger">ログアウト</button>
                         </form>
                     </li>
@@ -67,7 +67,7 @@
 
     <!-- product.phpをインクルード -->
     <?php 
-    require_once('../ec_site/product.php');
+    require_once('./product.php');
     ?>
 
     <div class="container product-container">
@@ -75,7 +75,7 @@
 
         <div class="sub-title-container">
             <h3 class="sub-title">商品登録フォーム</h3>
-                <form action="../ec_site/product.php" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                <form action="./product.php" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
                     <label for="product_name">商品名　　:</label>
                     <input type="text" id="product_name" name="product_name" required><br>
         
@@ -129,7 +129,7 @@
                             </td>
                             <!-- 公開フラグを変更するフォーム -->
                             <td>
-                                <form action="../ec_site/product.php" method="post">
+                                <form action="./product.php" method="post">
                                     <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
                                     <select name="public_flag">
                                         <option value="1" <?php if ($product['public_flag'] == 1) echo 'selected'; ?>>公開</option>
@@ -139,7 +139,7 @@
                                 </form>
                             </td>
                             <!-- 商品を削除するaリンク -->
-                            <td><a href="../ec_site/product.php?id=<?= $product['product_id'] ?>">削除</a></td>
+                            <td><a href="./product.php?id=<?= $product['product_id'] ?>">削除</a></td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>

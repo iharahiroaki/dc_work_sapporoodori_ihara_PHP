@@ -6,11 +6,11 @@ session_start();
 ini_set('display_errors', "On");
 
 // データベースに接続
-require_once('../model/dbConnect.php');
+require_once('../../include/model/dbConnect.php');
 $dbh = dbConnect();
 
 // function.phpの読み込み
-require_once('../model/function.php');
+require_once('../../include/model/function.php');
 
 // もし未ログインであれば、index.phpにリダイレクト
 checkLogin();
@@ -176,4 +176,4 @@ if(isset($_GET['id'])) {
     exit;
 }
 
-include_once('../view/product_view.php');
+include_once('../../include/view/product_view.php');

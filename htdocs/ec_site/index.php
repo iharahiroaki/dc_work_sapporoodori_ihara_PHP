@@ -6,11 +6,11 @@ session_start();
 ini_set('display_errors', "On");
 
 // データベースに接続
-require_once('../model/dbConnect.php');
+require_once('../../include/model/dbConnect.php');
 $dbh = dbConnect();
 
 // function.phpの読み込み
-require_once('../model/function.php');
+require_once('../../include/model/function.php');
 
 // もしログイン済みであれば、shopping.phpにリダイレクト
 if (isset($_SESSION['username'])) {
@@ -85,4 +85,4 @@ function save_session_id_to_database($username, $session_id, $dbh) {
     $stmt->execute();
 }
 
-include_once('../view/index_view.php');
+require_once('../../include/view/index_view.php');

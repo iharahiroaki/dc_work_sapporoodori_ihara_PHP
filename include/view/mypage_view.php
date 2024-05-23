@@ -20,13 +20,13 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav ms-auto d-flex align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="../ec_site/shopping.php">商品一覧</a>
+                        <a class="nav-link" href="./shopping.php">商品一覧</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../ec_site/cart.php">買い物カゴ</a>
+                        <a class="nav-link" href="./cart.php">買い物カゴ</a>
                     </li>
                     <li class="nav-item">
-                        <form action="../ec_site/mypage.php" method="post" class="nav-link">
+                        <form action="./mypage.php" method="post" class="nav-link">
                             <button type="submit" name="logout" class="btn btn-danger">ログアウト</button>
                         </form>
                     </li>
@@ -37,7 +37,7 @@
 
     <!-- mypage.phpをインクルード -->
     <?php 
-    require_once('../ec_site/mypage.php');
+    require_once('./mypage.php');
     ?>
 
     <div class="container mypage-container">

@@ -9,11 +9,11 @@ ini_set('display_errors', "On");
 $cart_items = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
 
 // データベースに接続
-require_once('../model/dbConnect.php');
+require_once('../../include/model/dbConnect.php');
 $dbh = dbConnect();
 
 // function.phpの読み込み
-require_once('../model/function.php');
+require_once('../../include/model/function.php');
 
 // もし未ログインであれば、index.phpにリダイレクト
 checkLogin();
@@ -193,4 +193,4 @@ foreach ($cart_items as $item) {
     $total_price += $product_info['price'] * $item['quantity'];
 }
 
-include_once('../view/cart_view.php');
+include_once('../../include/view/cart_view.php');

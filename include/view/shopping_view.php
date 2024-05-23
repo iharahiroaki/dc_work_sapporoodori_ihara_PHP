@@ -20,13 +20,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto d-flex align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="../ec_site/cart.php">買い物カゴ</a>
+                        <a class="nav-link" href="./cart.php">買い物カゴ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../ec_site/mypage.php">マイページ</a>
+                        <a class="nav-link" href="./mypage.php">マイページ</a>
                     </li>
                     <li class="nav-item">
-                        <form action="../ec_site/shopping.php" method="post" class="nav-link">
+                        <form action="./shopping.php" method="post" class="nav-link">
                             <button type="submit" name="logout" class="btn btn-danger">ログアウト</button>
                         </form>
                     </li>
@@ -37,14 +37,14 @@
     
     <!-- shopping.phpをインクルード -->
     <?php 
-    require_once('../ec_site/shopping.php');
+    require_once('./shopping.php');
     ?>
 
     <div class="container text-center">
         <h1>ショッピングページ</h1>
         <p>ようこそ、<?php echo htmlspecialchars($_SESSION['username'], ENT_QUOTES); ?> さん</p>
         
-        <strong class="h6 text-danger"><a href="../ec_site/cart.php" class="text-danger">買い物カゴ</a>は、
+        <strong class="h6 text-danger"><a href="./cart.php" class="text-danger">買い物カゴ</a>は、
         <?php
             if(isset($_SESSION["cart"]) && count($_SESSION["cart"]) > 0) {
                 echo count($_SESSION["cart"]) . "商品が入っています。";

@@ -43,7 +43,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto d-flex align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="../ec_site/index.php">ログインページ</a>
+                        <a class="nav-link" href="./index.php">ログインページ</a>
                     </li>
                 </ul>
             </div>
@@ -52,14 +52,14 @@
     
     <div class="register-container">
     <h2>新規登録</h2>
-        <form class="register-form" action="../ec_site/register.php" method="post" onsubmit="return validateForm()">
+        <form class="register-form" action="./register.php" method="post" onsubmit="return validateForm()">
             <label for="username">ユーザーID:</label>
             <input type="text" name="username" id="username" required><?php echo htmlspecialchars($_POST['username'] ?? '', ENT_QUOTES); ?><br><br>
             <label for="password">パスワード:</label>
             <input type="password" name="password" id="password" required><?php echo htmlspecialchars($_POST['password'] ?? '', ENT_QUOTES); ?><br><br>
             <input type="submit" value="登録">
         </form><br>
-        <p>既にアカウントをお持ちの場合は<a href="../ec_site/index.php">ログインページへ</a></p>
+        <p>既にアカウントをお持ちの場合は<a href="./index.php">ログインページへ</a></p>
     </div>
 
     <?php
@@ -67,7 +67,7 @@
     if (isset($_GET['success']) && $_GET['success'] == 'true') {
         echo "<p class=\"message\">ユーザー登録が完了しました！<br>3秒後にログインページに自動で移ります。</p>";
         // 3秒後にindex.phpにリダイレクト
-        header('Refresh: 3; URL=../ec_site/index.php');
+        header('Refresh: 3; URL=./index.php');
         exit;
     }
     ?>

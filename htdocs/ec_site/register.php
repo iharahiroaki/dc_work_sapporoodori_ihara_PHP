@@ -6,7 +6,7 @@ session_start();
 ini_set('display_errors', "On");
 
 // データベースに接続
-require_once('../model/dbConnect.php');
+require_once('../../include/model/dbConnect.php');
 
 // もしログイン済みであれば、shopping.phpにリダイレクト
 if (isset($_SESSION['username'])) {
@@ -72,4 +72,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-include_once('../view/register_view.php');
+include_once('../../include/view/register_view.php');
