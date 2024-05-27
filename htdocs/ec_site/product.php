@@ -176,4 +176,8 @@ if(isset($_GET['id'])) {
     exit;
 }
 
-include_once('../../include/view/product_view.php');
+try {
+    require_once('../../include/view/product_view.php');
+} catch (Exception $e) {
+    echo 'viewファイルの読み込みに失敗しました。' . $e->getMessage();
+}

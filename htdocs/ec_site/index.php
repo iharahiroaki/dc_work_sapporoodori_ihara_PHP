@@ -93,5 +93,5 @@ function save_session_id_to_database($username, $session_id, $dbh) {
 try {
     require_once('../../include/view/index_view.php');
 } catch (Exception $e) {
-    echo 'index_view.phpのincludeに失敗しました。' . $e->getMessage();
+    echo 'viewファイルの読み込みに失敗しました。' . $e->getMessage();
 }

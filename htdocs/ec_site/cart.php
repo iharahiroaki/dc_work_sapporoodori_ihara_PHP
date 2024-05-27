@@ -232,4 +232,8 @@ foreach ($cart_items as $item) {
     $total_price += $product_info['price'] * $item['quantity'];
 }
 
-include_once('../../include/view/cart_view.php');
+try {
+    require_once('../../include/view/cart_view.php');
+} catch (Exception $e) {
+    echo 'viewファイルの読み込みに失敗しました。' . $e->getMessage();
+}

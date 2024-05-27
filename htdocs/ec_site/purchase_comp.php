@@ -69,4 +69,8 @@ if (isset($_SESSION['purchase_items'])) {
 // 購入が完了したらセッション内の購入情報を削除
 unset($_SESSION['purchase_items']);
 
-include_once('../../include/view/purchase_comp_view.php');
+try {
+    require_once('../../include/view/purchase_comp_view.php');
+} catch (Exception $e) {
+    echo 'viewファイルの読み込みに失敗しました。' . $e->getMessage();
+}

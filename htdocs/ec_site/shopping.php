@@ -85,4 +85,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-include_once('../../include/view/shopping_view.php');
+try {
+    require_once('../../include/view/shopping_view.php');
+} catch (Exception $e) {
+    echo 'viewファイルの読み込みに失敗しました。' . $e->getMessage();
+}

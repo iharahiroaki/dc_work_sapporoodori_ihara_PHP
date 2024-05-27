@@ -41,8 +41,13 @@ try {
     $purchase_history = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     // データベースエラーの場合は、エラーメッセージを表示してリダイレクト
+    error_log($e->getMessage());
     header('Location: ./mypage.php?error=database_error');
     exit;
 }
 
-include_once('../../include/view/mypage_view.php');
+try {
+    require_once('../../include/view/mypage_view.php');
+} catch (Exception $e) {
+    echo 'viewファイルの読み込みに失敗しました。' . $e->getMessage();
+}
