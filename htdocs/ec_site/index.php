@@ -47,30 +47,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit;
         } else {
             // データベースからユーザー情報を取得し、ユーザーIDとパスワードを検証する
-            $stmt = $dbh->prepare("SELECT * FROM user WHERE user_name = :username");
-            $stmt->bindParam(':username', $username, PDO::PARAM_STR);
-            $stmt->execute();
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-            // 分岐2: データベースに格納された情報と一致する場合は、セッションにユーザー名とユーザーIDを保存してshopping.phpに遷移する
-            if ($user && password_verify($password, $user['password'])) {
-                // セッションハイジャック対策
-                session_regenerate_id(true);
-                // 管理者フラグがfalseであればユーザーログイン
-                $_SESSION['admin'] = false;
-                // ユーザー名をセッションに保存
-                $_SESSION['username'] = $username;
-                // ユーザーIDをセッションに保存
-                $_SESSION['user_id'] = $user['user_id'];
-                // 現在のセッションIDを取得
-                $session_id = session_id();
-                // ユーザーテーブルにセッションIDを保存
-                save_session_id_to_database($username, $session_id, $dbh);
-                header("Location: ../ec_site/shopping.php");
-                exit;
-            } else {
-                // 分岐3: データベースに格納された情報と不一致の場合、エラーメッセージを表示
-                $error_message = "ユーザーIDまたはパスワードが間違っています。";
+            try {
+                $stmt = $dbh->prepare("SELECT * FROM user WHERE user_name = :username");
+                $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+                $stmt->execute();
+                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+                // 分岐2: データベースに格納された情報と一致する場合は、セッションにユーザー名とユーザーIDを保存してshopping.phpに遷移する
+                if ($user && password_verify($password, $user['password'])) {
+                    // セッションハイジャック対策
+                    session_regenerate_id(true);
+                    // 管理者フラグがfalseであればユーザーログイン
+                    $_SESSION['admin'] = false;
+                    // ユーザー名をセッションに保存
+                    $_SESSION['username'] = $username;
+                    // ユーザーIDをセッションに保存
+                    $_SESSION['user_id'] = $user['user_id'];
+                    // 現在のセッションIDを取得
+                    $session_id = session_id();
+                    // ユーザーテーブルにセッションIDを保存
+                    save_session_id_to_database($username, $session_id, $dbh);
+                    header("Location: ../ec_site/shopping.php");
+                    exit;
+                } else {
+                    // 分岐3: データベースに格納された情報と不一致の場合、エラーメッセージを表示
+                    $error_message = "ユーザーIDまたはパスワードが間違っています。";
+                }
+            } catch (PDOException $e) {
+                error_log($e->getMessage());
+                $error_message = "データベースエラーが発生しました。";
             }
         }
     }
@@ -85,4 +90,8 @@ function save_session_id_to_database($username, $session_id, $dbh) {
     $stmt->execute();
 }
 
-require_once('../../include/view/index_view.php');
+try {
+    require_once('../../include/view/index_view.php');
+} catch (Exception $e) {
+    echo 'index_view.phpのincludeに失敗しました。' . $e->getMessage();
+}

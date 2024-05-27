@@ -35,6 +35,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["product_id"]) && isset
     }
 
     try {
+        // トランザクションの開始
+        $dbh->beginTransaction();
+
         // カートに商品がすでに存在するかチェック
         $existing_index = array_search($product_id, array_column($cart_items, 'product_id'));
         
@@ -61,8 +64,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["product_id"]) && isset
                 $stmt->execute();
             }
         }
+        // トランザクションのコミット
+        $dbh->commit();
+
     } catch (PDOException $e) {
         // データベースエラーの処理
+        $dbh->rollBack();
         error_log($e->getMessage());
         header('LOcation: ./cart.php?error=database_error');
         exit;
@@ -76,15 +83,31 @@ $_SESSION['cart'] = $cart_items;
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
     $product_id = filter_input(INPUT_POST, 'delete', FILTER_VALIDATE_INT);
     if ($product_id !== false) {
-        removeFromCart($dbh, $product_id);
-        // カート情報を更新
-        $cart_items = array_filter($cart_items, function ($item) use ($product_id) {
-            return $item['product_id'] != $product_id;
-        });
-        $_SESSION['cart'] = $cart_items;
+        try {
+            // トランザクションの開始
+            $dbh->beginTransaction();
+
+            removeFromCart($dbh, $product_id);
+            // カート情報を更新
+            $cart_items = array_filter($cart_items, function ($item) use ($product_id) {
+                return $item['product_id'] != $product_id;
+            });
+            $_SESSION['cart'] = $cart_items;
+
+            // トランザクションのコミット
+            $dbh->commit();
+        } catch (PDOException $e) {
+            // トランザクションのロールバック
+            $dbh->rollBack();
+            error_log($e->getMessage());
+            header('Location: ./cart.php?error=database_error');
+            exit;
+        }
+
         // ページをリロードして削除後の状態を反映
         header('Location: ../ec_site/cart.php');
         exit;
+
     } else {
         header('Location: ./cart.php?error=invalid_product_id');
         exit;
@@ -112,6 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['purchase'])) {
         // 在庫がある場合の処理
         // 在庫数の更新
         try {
+            // トランザクションの開始
             $dbh->beginTransaction();
             foreach ($cart_items as $item) {
                 $product_info = getProductInfo($dbh, $item['product_id']);
@@ -121,8 +145,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['purchase'])) {
                 $stmt->bindParam(':product_id', $item['product_id'], PDO::PARAM_INT);
                 $stmt->execute();
             }
+            // トランザクションのコミット
             $dbh->commit();
         } catch (PDOException $e) {
+            // トランザクションのロールバック
             $dbh->rollBack();
             error_log($e->getMessage());
             header('Location: ./cart.php?error=transaction_error');
@@ -158,28 +184,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $quantity = filter_input(INPUT_POST, 'quantity', FILTER_VALIDATE_INT);
 
     if ($product_id !== false && $quantity !== false && $quantity > 0) {
-        // カートの商品情報を更新
-        foreach ($cart_items as &$item) {
-            if ($item['product_id'] === $product_id) {
-                $item['quantity'] = $quantity;
-                break;
+        try {
+            // トランザクションの開始
+            $dbh->beginTransaction();
+    
+            // カートの商品情報を更新
+            foreach ($cart_items as &$item) {
+                if ($item['product_id'] === $product_id) {
+                    $item['quantity'] = $quantity;
+                    break;
+                }
             }
+            // リファレンスを解除
+            unset($item);
+            
+            // カート情報をセッションに保存
+            $_SESSION['cart'] = $cart_items;
+            
+            // データベースのカート情報も更新する
+            $stmt = $dbh->prepare("UPDATE cart SET quantity = :quantity WHERE product_id = :product_id");
+            $stmt->bindParam(':quantity', $quantity, PDO::PARAM_INT);
+            $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
+            $stmt->execute();
+    
+            // トランザクションのコミット
+            $dbh->commit();
+            
+            // ページをリロードして数量変更後の状態を反映
+            header('Location: ../ec_site/cart.php');
+            exit;
+        } catch (PDOException $e) {
+            $dbh->rollBack();
+            error_log($e->getMessage());
+            header('Location: ./cart.php?error=databese_error');
+            exit;
         }
-        // リファレンスを解除
-        unset($item);
-        
-        // カート情報をセッションに保存
-        $_SESSION['cart'] = $cart_items;
-        
-        // データベースのカート情報も更新する
-        $stmt = $dbh->prepare("UPDATE cart SET quantity = :quantity WHERE product_id = :product_id");
-        $stmt->bindParam(':quantity', $quantity, PDO::PARAM_INT);
-        $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
-        $stmt->execute();
-        
-        // ページをリロードして数量変更後の状態を反映
-        header('Location: ../ec_site/cart.php');
-        exit;
     } else {
         header('Location: ./cart.php?error=invalid_quantity');
         exit;

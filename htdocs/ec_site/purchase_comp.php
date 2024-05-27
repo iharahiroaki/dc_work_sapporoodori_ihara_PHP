@@ -34,7 +34,7 @@ if (!empty($purchase_items) && isset($_SESSION['user_id']) && is_int($_SESSION['
 
         // データのバリデーションと保存
         foreach ($purchase_items as $item) {
-            if (isset($item['product_id'], $item['quantity']) || !is_int($item['pruduct_id']) || !is_int($item['quantity']) || $item['quantity'] <= 0) {
+            if (isset($item['product_id'], $item['quantity']) && !is_int($item['pruduct_id']) && !is_int($item['quantity']) && $item['quantity'] <= 0) {
                 throw new Exception('購入情報が不正です。');
             }
 
