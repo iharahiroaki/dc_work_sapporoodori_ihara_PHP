@@ -65,6 +65,11 @@
         </div>
     </nav>
 
+    <!-- product.phpをインクルード -->
+    <?php 
+    require_once('./product.php');
+    ?>
+
     <div class="container product-container">
         <h1>商品管理ページ</h1>
 
@@ -111,21 +116,21 @@
                 <?php if (!empty($allProducts)): ?>
                     <?php foreach ($allProducts as $product): ?>
                         <tr>
-                            <td><img src="<?= htmlspecialchars($product['product_image'], ENT_QUOTES, 'UTF-8') ?>" alt="<?= htmlspecialchars($product['product_name'], ENT_QUOTES, 'UTF-8') ?>" width="100"></td>
-                            <td><?= htmlspecialchars($product['product_name'], ENT_QUOTES, 'UTF-8') ?></td>
-                            <td><?= htmlspecialchars($product['price'], ENT_QUOTES, 'UTF-8') ?>円</td>
+                            <td><img src="<?= $product['product_image'] ?>" alt="<?= $product['product_name'] ?>" width="100"></td>
+                            <td><?= $product['product_name'] ?></td>
+                            <td><?= $product['price'] ?>円</td>
                             <!-- 在庫数を変更するフォーム -->
                             <td>
                                 <form action="./product.php" method="post">
-                                    <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['product_id'], ENT_QUOTES, 'UTF-8') ?>">
-                                    <input type="number" name="quantity" value="<?= htmlspecialchars($product['quantity'], ENT_QUOTES, 'UTF-8') ?>" min="0" required>
+                                    <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
+                                    <input type="number" name="quantity" value="<?= $product['quantity'] ?>" min="0" required>
                                     <button type="submit">変更</button>
                                 </form>
                             </td>
                             <!-- 公開フラグを変更するフォーム -->
                             <td>
                                 <form action="./product.php" method="post">
-                                    <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['product_id'], ENT_QUOTES, 'UTF-8') ?>">
+                                    <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
                                     <select name="public_flag">
                                         <option value="1" <?php if ($product['public_flag'] == 1) echo 'selected'; ?>>公開</option>
                                         <option value="0" <?php if ($product['public_flag'] == 0) echo 'selected'; ?>>非公開</option>
@@ -134,7 +139,7 @@
                                 </form>
                             </td>
                             <!-- 商品を削除するaリンク -->
-                            <td><a href="./product.php?id=<?= htmlspecialchars($product['product_id'], ENT_QUOTES, 'UTF-8') ?>" onclick="return confirm('本当に削除しますか？')">削除</a></td>
+                            <td><a href="./product.php?id=<?= $product['product_id'] ?>">削除</a></td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>

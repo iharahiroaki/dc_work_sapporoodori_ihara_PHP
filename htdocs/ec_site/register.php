@@ -37,6 +37,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
         $dbh = dbConnect();
 
+        // トランザクションの開始
+        $dbh->beginTransaction();
+
         // ユーザーIDの重複をチェック
         $stmt = $dbh->prepare("SELECT * FROM user WHERE user_name = :username");
         $stmt->bindParam(':username', $username, PDO::PARAM_STR);
@@ -46,8 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($existingUser) {
              // エラーメッセージを表示
              echo "<script>alert('このユーザーIDは既に使用されています。');</script>";
-             // ページに留まる
-             echo "<script>window.location = './register.php';</script>";
+             // トランザクションのロールバックをして終了
+             $dbh->rollBack();
              exit;
         }
 
@@ -58,6 +61,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->bindParam(':username', $username, PDO::PARAM_STR);
         $stmt->bindParam(':password', $hashed_password, PDO::PARAM_STR);
         $stmt->execute();
+
+        // トランザクションのコミット
+        $dbh->commit();
 
         // セッションハイジャック対策
         session_regenerate_id(true);

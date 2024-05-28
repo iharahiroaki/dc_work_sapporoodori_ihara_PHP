@@ -59,12 +59,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
 
         // 商品情報をデータベースに挿入
         try {
+            // トランザクションの開始
+            $dbh->beginTransaction();
+
             $stmt = $dbh->prepare("INSERT INTO product (product_name, price, quantity, product_image, public_flag) VALUES (?, ?, ?, ?, ?)");
             $stmt->execute([$productName, $price, $quantity, $imagePath, $publicFlag]);
-    
+
+            // トランザクションのコミット
+            $dbh->commit();
+
             // 商品登録成功メッセージをセッションに保存
             $_SESSION['register_success'] = "商品が正常に登録されました。";
         } catch (PDOException $e) {
+            // トランザクションのロールバック
+            $dbh->rollBack();
             echo "商品登録に失敗しました。" . $e->getMessage();
             exit;
         }
@@ -105,17 +113,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'], $_POST[
     }
 
     try {
+        // トランザクションの開始
+        $dbh->beginTransaction();
+
         // 在庫数をデータベースに更新
         $stmt = $dbh->prepare("UPDATE product SET quantity = ? WHERE product_id = ?");
         $stmt->execute([$quantity, $productId]);
+
+        // トランザクションのコミット
+        $dbh->commit();
     
         // 在庫数変更成功メッセージをセッションに保存
         $_SESSION['quantity_update'] = "在庫数が正常に変更されました。";
     } catch (PDOException $e) {
+        // トランザクションのロールバック
+        $dbh->rollBack();
         echo "在庫数の更新に失敗しました。" . $e->getMessage();
         exit;
     }
-
 
     // 商品一覧ページにリダイレクト
     header('Location: ./product.php');
@@ -133,17 +148,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'], $_POST[
     }
 
     try {
+        // トランザクションの開始
+        $dbh->beginTransaction();
+
         // 公開フラグをデータベースに更新
         $stmt = $dbh->prepare("UPDATE product SET public_flag = ? WHERE product_id = ?");
         $stmt->execute([$publicFlag, $productId]);
-    
+
+        // トランザクションのコミット
+        $dbh->commit();
+        
         // 公開フラグ更新成功メッセージをセッションに保存
         $_SESSION['public_flag_update'] = "公開フラグが正常に更新されました。";
     } catch (PDOException $e) {
+        // トランザクションのロールバック
+        $dbh->rollBack();
         echo "公開フラグの更新に失敗しました。" . $e->getMessage();
         exit;
     }
-
 
     // 商品一覧ページにリダイレクト
     header('Location: ./product.php');
@@ -160,13 +182,22 @@ if(isset($_GET['id'])) {
     }
 
     try {
+        // トランザクションの開始
+        $dbh->beginTransaction();
+
         // 商品を削除するSQL文を準備
         $stmt = $dbh->prepare("DELETE FROM product WHERE product_id = ?");
         // パラメータをバインドしてSQL文を実行
         $stmt->execute([$productId]);
+
+        // トランザクションのコミット
+        $dbh->commit();
+
         // 商品削除成功メッセージをセッションに保存
         $_SESSION['product_delete'] = "商品が正常に削除されました。";
     } catch (PDOException $e) {
+        // トランザクションのロールバック
+        $dbh->rollBack();
         echo "商品の削除に失敗しました。" . $e->getMessage();
         exit;
     }
@@ -177,7 +208,7 @@ if(isset($_GET['id'])) {
 }
 
 try {
-    require_once('../../include/view/product_view.php');
+    include_once('../../include/view/product_view.php');
 } catch (Exception $e) {
     echo 'viewファイルの読み込みに失敗しました。' . $e->getMessage();
 }

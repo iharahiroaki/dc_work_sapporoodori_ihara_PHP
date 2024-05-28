@@ -64,23 +64,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
-        // 在庫数を確認
-        $stmt = $dbh->prepare("SELECT quantity FROM product WHERE product_id = :product_id");
-        $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
-        $stmt->execute();
-        $available_quantity = $stmt->fetchColumn();
-        
-        // ユーザーIDをセッションから取得
-        $user_id = $_SESSION['user_id'];
+        try {
+            // トランザクションの開始
+            $dbh->beginTransaction();
 
-        // カートに商品を追加する処理
-        if ($available_quantity !== false && $available_quantity > 0) {
-            // 在庫がある場合、カートに追加
-            addToCart($user_id, $product_id, min($num, $available_quantity));
-        } else {
-            // 在庫がない場合、エラーメッセージを表示
-            header('Location: ./shopping.php?error=out_of_stock');
-            exit;
+            // 在庫数を確認
+            $stmt = $dbh->prepare("SELECT quantity FROM product WHERE product_id = :product_id");
+            $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
+            $stmt->execute();
+            $available_quantity = $stmt->fetchColumn();
+            
+            // ユーザーIDをセッションから取得
+            $user_id = $_SESSION['user_id'];
+    
+            // カートに商品を追加する処理
+            if ($available_quantity !== false && $available_quantity > 0) {
+                // 在庫がある場合、カートに追加
+                addToCart($user_id, $product_id, min($num, $available_quantity));
+            } else {
+                // 在庫がない場合、エラーメッセージを表示
+                header('Location: ./shopping.php?error=out_of_stock');
+                exit;
+            }
+
+            // トランザクションのコミット
+            $dbh->commit();
+        } catch (PDOException $e) {
+            // トランザクションのロールバック
+            $dbh->rollBack();
+            echo 'カートの追加に失敗しました。' . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
         }
     }
 }
