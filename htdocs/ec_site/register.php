@@ -24,13 +24,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (!preg_match($usernameRegex, $username)) {
         // ユーザーIDが正しくない場合はエラーメッセージを表示してリダイレクト
-        header('Location: ./register.php?error=invalid_username');
+        $_SESSION['error'] = 'ユーザーIDは半角英数字で5文字以上で入力してください。';
+        header('Location: ./register.php');
         exit;
     }
 
     if (!preg_match($passwordRegex, $password)) {
         // パスワードが正しくない場合はエラーメッセージを表示してリダイレクト
-        header('Location: ./register.php?error=invalid_password');
+        $_SESSION['error'] = 'パスワードは半角英数字で8文字以上で入力してください。';
+        header('Location: ./register.php');
         exit;
     }
 
@@ -47,11 +49,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $existingUser = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($existingUser) {
-             // エラーメッセージを表示
-             echo "<script>alert('このユーザーIDは既に使用されています。');</script>";
-             // トランザクションのロールバックをして終了
-             $dbh->rollBack();
-             exit;
+            // エラーメッセージを表示
+            $_SESSION['error'] = 'このユーザーIDは既に使用されています。';
+            // トランザクションのロールバックをして終了
+            $dbh->rollBack();
+            header('Location: ./register.php');
+            exit;
         }
 
         // パスワードのハッシュ化
@@ -69,11 +72,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         session_regenerate_id(true);
 
         // 登録成功時は登録完了のメッセージを表示してリダイレクト
-        header('Location: ./register.php?success=true');
+        $_SESSION['success'] = 'ユーザー登録が完了しました！　※自動でログイン画面に移動します。';
+        header('Location: ./register.php');
         exit;
     } catch(PDOException $e) {
         // データベースエラーの場合はエラーメッセージを表示してリダイレクト
-        header('Location: ./register.php?error=database_error');
+        $_SESSION['error'] = 'データベースエラーが発生しました。';
+        header('Location: ./register.php');
         exit;
     }
 }

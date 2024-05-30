@@ -53,6 +53,20 @@
             }
         ?>
         </strong>
+
+        <?php if (isset($_SESSION['message'])): ?>
+            <div class="alert alert-success">
+                <?php echo htmlspecialchars($_SESSION['message'], ENT_QUOTES, 'UTF-8'); ?>
+            </div>
+            <?php unset($_SESSION['message']); ?>
+        <?php endif; ?>
+        
+        <?php if (isset($_SESSION['error'])): ?>
+            <div class="alert alert-danger">
+                <?php echo htmlspecialchars($_SESSION['error'], ENT_QUOTES, 'UTF-8'); ?>
+            </div>
+            <?php unset($_SESSION['error']); ?>
+        <?php endif; ?>
     </div>
     
     <!-- カートの合計金額を表示 -->
@@ -119,12 +133,6 @@
             </div>
         <?php endforeach; ?>
     </div>
-
-    <script>
-        function showMessage() {
-            alert("カートに商品が追加されました");
-        }
-    </script>
 
     <!-- Bootstrap JavaScript（オプション） -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>

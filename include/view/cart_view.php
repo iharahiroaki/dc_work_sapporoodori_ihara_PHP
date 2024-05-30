@@ -39,6 +39,20 @@
     <div class="cart-container">
         <h1>カート</h1>
 
+        <?php if (isset($_SESSION['message'])): ?>
+            <div class="alert alert-success" role="alert">
+                <?= htmlspecialchars($_SESSION['message'], ENT_QUOTES); ?>
+                <?php unset($_SESSION['message']); ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['error'])): ?>
+            <div class="alert alert-danger" role="alert">
+                <?= htmlspecialchars($_SESSION['error'], ENT_QUOTES); ?>
+                <?php unset($_SESSION['error']); ?>
+            </div>
+        <?php endif; ?>
+
         <?php if (empty($cart_items)): ?>
             <p>カートに商品がありません。</p>
         <?php else: ?>
@@ -73,19 +87,6 @@
                                     <button type="submit" name="delete" value="<?= htmlspecialchars($item['product_id'], ENT_QUOTES) ?>" class="btn btn-danger">削除</button>
                                 </form>
                             </td>
-
-                            <script>
-                                // 数量変更の確認メッセージを表示する関数
-                                function confirmQuantityChange() {
-                                    return confirm('商品の数量が変更されました');
-                                }
-
-                                // 削除の確認メッセージを表示する関数
-                                function confirmDelete() {
-                                    return confirm('商品がカートから削除されました');
-                                }
-                            </script>
-
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

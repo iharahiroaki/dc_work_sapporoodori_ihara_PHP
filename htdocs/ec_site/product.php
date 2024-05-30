@@ -27,6 +27,9 @@ if (isset($_POST['logout'])) {
 
 // 商品の登録
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
+    // 一時的な成功フラグを初期化
+    $success = false;
+    
     // フォームから送信されたデータが存在するかを確認
     if(isset($_POST['product_name'], $_POST['price'], $_POST['quantity'], $_FILES['product_image'], $_POST['public_flag'])) {
         // フォームから送信されたデータを取得
@@ -37,67 +40,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
 
         // 入力データのバリデーション
         if (!$productName || !$price || $price <= 0 || !$quantity || $quantity < 0 || $publicFlag === null) {
-            echo "無効な入力データがあります。";
-            exit;
-        }
+            $_SESSION['error_message'] = "価格、個数は1以上の整数を入力してください。";
+        } else {
+            // ファイルアップロードの検証
+            $allowedExtensions = array('jpg', 'jpeg', 'png');
+            $productImage = $_FILES['product_image']['name'];
+            $fileExtension = strtolower(pathinfo($productImage, PATHINFO_EXTENSION));
+            if (!in_array($fileExtension, $allowedExtensions)) {
+                $_SESSION['error_message'] = "画像ファイルの拡張子は.jpg、.jpeg、.pngのみ許可されています。";
+            } else {
+                // 商品画像のアップロード処理
+                $imagePath = 'product_images/' . $productImage;
+                if (!move_uploaded_file($_FILES['product_image']['tmp_name'], $imagePath)) {
+                    $_SESSION['error_message'] = "画像のアップロードに失敗しました。";
+                } else {
+                    // 商品情報をデータベースに挿入
+                    try {
+                        // トランザクションの開始
+                        $dbh->beginTransaction();
 
-        // ファイルアップロードの検証
-        $allowedExtensions = array('jpg', 'jpeg', 'png');
-        $productImage = $_FILES['product_image']['name'];
-        $fileExtension = strtolower(pathinfo($productImage, PATHINFO_EXTENSION));
-        if (!in_array($fileExtension, $allowedExtensions)) {
-            echo "画像ファイルの拡張子は.jpg、.jpeg、.pngのみ許可されています。";
-            exit;
-        }
-        
-        // 商品画像のアップロード処理
-        $imagePath = 'product_images/' . $productImage;
-        if (!move_uploaded_file($_FILES['product_image']['tmp_name'], $imagePath)) {
-            echo "画像のアップロードに失敗しました。";
-            exit;
-        }
+                        $stmt = $dbh->prepare("INSERT INTO product (product_name, price, quantity, product_image, public_flag) VALUES (?, ?, ?, ?, ?)");
+                        $stmt->execute([$productName, $price, $quantity, $imagePath, $publicFlag]);
 
-        // 商品情報をデータベースに挿入
-        try {
-            // トランザクションの開始
-            $dbh->beginTransaction();
+                        // トランザクションのコミット
+                        $dbh->commit();
 
-            $stmt = $dbh->prepare("INSERT INTO product (product_name, price, quantity, product_image, public_flag) VALUES (?, ?, ?, ?, ?)");
-            $stmt->execute([$productName, $price, $quantity, $imagePath, $publicFlag]);
-
-            // トランザクションのコミット
-            $dbh->commit();
-
-            // 商品登録成功メッセージをセッションに保存
-            $_SESSION['register_success'] = "商品が正常に登録されました。";
-        } catch (PDOException $e) {
-            // トランザクションのロールバック
-            $dbh->rollBack();
-            echo "商品登録に失敗しました。" . $e->getMessage();
-            exit;
+                        // 商品登録成功メッセージをセッションに保存
+                        $_SESSION['success_message'] = "商品が正常に登録されました。";
+                    } catch (PDOException $e) {
+                        // トランザクションのロールバック
+                        $dbh->rollBack();
+                        $_SESSION['error_message'] = "商品登録に失敗しました。" . $e->getMessage();
+                    }
+                }
+            }
         }
 
         // 商品一覧ページにリダイレクト
         header('Location: ./product.php');
         exit;
-
-
-        // // 商品情報をセッションに保存
-        // $product = [
-        //     'product_name' => $productName,
-        //     'price' => $price,
-        //     'quantity' => $quantity,
-        //     'product_image' => $productImage,
-        //     'public_flag' => $publicFlag,
-        // ];
-
-        // // セッションに商品情報を追加
-        // $_SESSION['products'][] = $product;
-
-
     } else {
         // フォームからのデータが提供されていない場合はエラーメッセージを出力
-        echo "フォームからのデータが提供されていません。";
+        $_SESSION['error_message'] = "フォームからのデータが提供されていません。";
     }
 }
 
@@ -108,7 +92,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'], $_POST[
     $quantity = filter_input(INPUT_POST, 'quantity', FILTER_VALIDATE_INT);
 
     if (!$productId || !$quantity || $quantity < 0) {
-        echo "無効な入力データがあります。";
+        $_SESSION['error_message'] = "無効な入力データがあります。";
+        header('Location: ./product.php');
         exit;
     }
 
@@ -129,7 +114,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'], $_POST[
         // トランザクションのロールバック
         $dbh->rollBack();
         echo "在庫数の更新に失敗しました。" . $e->getMessage();
-        exit;
     }
 
     // 商品一覧ページにリダイレクト
@@ -143,7 +127,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'], $_POST[
     $publicFlag = filter_input(INPUT_POST, 'public_flag', FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
 
     if (!$productId || $publicFlag === null) {
-        echo "無効な入力データがあります。";
+        $_SESSION['error_message'] = "無効な入力データがあります。";
+        header('Location: ./product.php');
         exit;
     }
 
@@ -163,8 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'], $_POST[
     } catch (PDOException $e) {
         // トランザクションのロールバック
         $dbh->rollBack();
-        echo "公開フラグの更新に失敗しました。" . $e->getMessage();
-        exit;
+        $_SESSION['error_message'] = "公開フラグの更新に失敗しました。" . $e->getMessage();
     }
 
     // 商品一覧ページにリダイレクト
@@ -177,7 +161,8 @@ if(isset($_GET['id'])) {
     $productId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
     if (!$productId) {
-        echo "無効な商品IDです。";
+        $_SESSION['error_message'] = "無効な商品IDです。";
+        header('Location: ./product.php');
         exit;
     }
 
@@ -198,7 +183,7 @@ if(isset($_GET['id'])) {
     } catch (PDOException $e) {
         // トランザクションのロールバック
         $dbh->rollBack();
-        echo "商品の削除に失敗しました。" . $e->getMessage();
+        $_SESSION['error_message'] = "商品の削除に失敗しました。" . $e->getMessage();
         exit;
     }
 

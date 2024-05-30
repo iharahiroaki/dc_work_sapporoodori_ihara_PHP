@@ -9,28 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <title>毛鉤専門ショップ_ユーザー登録ページ</title>
-
-    <script>
-        function validateForm() {
-            var username = document.getElementById("username").value;
-            var password = document.getElementById("password").value;
-            var usernameRegex = /^[a-zA-Z0-9]{5,}$/; // ユーザーIDの正規表現
-            var passwordRegex = /^[a-zA-Z0-9]{8,}$/; // パスワードの正規表現
-
-            if (!usernameRegex.test(username)) {
-                alert("ユーザーIDは半角英数字で5文字以上で入力してください。");
-                return false;
-            }
-
-            if (!passwordRegex.test(password)) {
-                alert("パスワードは半角英数字で8文字以上で入力してください。");
-                return false;
-            }
-
-            return true;
-        }
-    </script>
-
+    
 </head>
 
 <body>
@@ -64,11 +43,16 @@
 
     <?php
     // 登録成功時のメッセージを表示
-    if (isset($_GET['success']) && $_GET['success'] == 'true') {
-        echo "<p class=\"message\">ユーザー登録が完了しました！<br>3秒後にログインページに自動で移ります。</p>";
+    if (isset($_SESSION['success'])) {
+        echo '<div class="alert alert-success" role="alert">' . htmlspecialchars($_SESSION['success'], ENT_QUOTES) . '</div>';
+        unset($_SESSION['success']);
         // 3秒後にindex.phpにリダイレクト
-        header('Refresh: 3; URL=./index.php');
-        exit;
+        echo '<meta http-equiv="refresh" content="3; URL=./index.php">';
+    }
+
+    if (isset($_SESSION['error'])) {
+        echo '<div class="alert alert-danger" role="alert">' . htmlspecialchars($_SESSION['error'], ENT_QUOTES) . '</div>';
+        unset($_SESSION['error']);
     }
     ?>
 

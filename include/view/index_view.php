@@ -17,9 +17,7 @@
     <div class="login-container">
         <h2 class="login-title">ログイン</h2>
         <?php if (isset($error_message)): ?>
-            <script>
-                alert("<?php echo htmlspecialchars($error_message, ENT_QUOTES); ?>");
-            </script>
+            <p class="error-message"><?php echo htmlspecialchars($error_message, ENT_QUOTES, 'UTF-8'); ?></p>
         <?php endif; ?>
         <form action="./index.php" method="post" class="login-form">
             <div class="form-group">

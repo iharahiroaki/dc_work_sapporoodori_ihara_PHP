@@ -30,7 +30,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["product_id"]) && isset
     $num = filter_input(INPUT_POST, 'num', FILTER_VALIDATE_INT);
     
     if ($pruduct_id === false || $num === false || $num <= 0) {
-        header('Location: ./cart.php?error=invalid_input');
+        $_SESSION['error'] = '無効な入力です。';
+        header('Location: ./cart.php');
         exit;
     }
 
@@ -67,13 +68,17 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["product_id"]) && isset
         // トランザクションのコミット
         $dbh->commit();
 
+        $_SESSION['message'] = '商品がカートに追加されました。';
     } catch (PDOException $e) {
         // データベースエラーの処理
         $dbh->rollBack();
         error_log($e->getMessage());
-        header('LOcation: ./cart.php?error=database_error');
+        $_SESSION['error'] = 'データベースエラーが発生しました。';
+        header('Location: ./cart.php');
         exit;
     }
+    header('Location: ./cart.php');
+    exit;
 }
 
 // カート情報をセッションに保存
@@ -96,11 +101,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
 
             // トランザクションのコミット
             $dbh->commit();
+
+            $_SESSION['message'] = '商品がカートから削除されました。';
         } catch (PDOException $e) {
             // トランザクションのロールバック
             $dbh->rollBack();
             error_log($e->getMessage());
-            header('Location: ./cart.php?error=database_error');
+            $_SESSION['error'] = 'データベースエラーが発生しました。';
+            header('Location: ./cart.php');
             exit;
         }
 
@@ -109,7 +117,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
         exit;
 
     } else {
-        header('Location: ./cart.php?error=invalid_product_id');
+        $_SESSION['error'] = '無効な商品IDです。';
+        header('Location: ./cart.php');
         exit;
     }
 }
@@ -123,14 +132,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['purchase'])) {
         if ($product_info['quantity'] < $item['quantity']) {
             // 在庫が足りない場合はフラグを立ててループを抜ける
             $out_of_stock = true;
+            $product_name = $product_info['product_name'];
             break;
         }
     }
     
     if ($out_of_stock) {
         // 在庫がない場合の処理
-        $product_name = getProductInfo($dbh, $item['product_id'])['product_name'];
-        echo "<script>alert('たった今" . htmlspecialchars($product_name, ENT_QUOTES) . "の在庫がなくなりました！商品を選び直してください。');</script>";
+        $_SESSION['error'] = "たった今{$product_name}の在庫がなくなりました！商品を選び直してください。";
+        header('Location: ./cart.php');
+        exit;
     } else {
         // 在庫がある場合の処理
         // 在庫数の更新
@@ -151,7 +162,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['purchase'])) {
             // トランザクションのロールバック
             $dbh->rollBack();
             error_log($e->getMessage());
-            header('Location: ./cart.php?error=transaction_error');
+            $_SESSION['error'] = 'トランザクションエラーが発生しました。';
+            header('Location: ./cart.php');
             exit;
         }
 
@@ -211,16 +223,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
             $dbh->commit();
             
             // ページをリロードして数量変更後の状態を反映
-            header('Location: ../ec_site/cart.php');
+            $_SESSION['message'] = '商品の数量が変更されました。';
+            header('Location: ./cart.php');
             exit;
         } catch (PDOException $e) {
             $dbh->rollBack();
             error_log($e->getMessage());
-            header('Location: ./cart.php?error=databese_error');
+            $_SESSION['error'] = 'データベースエラーが発生しました。';
+            header('Location: ./cart.php');
             exit;
         }
     } else {
-        header('Location: ./cart.php?error=invalid_quantity');
+        $_SESSION['error'] = '無効な数量です。';
+        header('Location: ./cart.php');
         exit;
     }
 }

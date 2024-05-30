@@ -10,40 +10,6 @@
 
     <title>毛鉤専門ショップ_商品管理ページ</title>
 
-    <script>
-    function validateForm() {
-        var productName = document.getElementById('product_name').value;
-        var price = document.getElementById('price').value;
-        var quantity = document.getElementById('quantity').value;
-        var productImage = document.getElementById('product_image').value;
-        var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
-
-        var errorMessage = '';
-
-        if (productName === '') {
-            errorMessage += '商品名が未入力です。\n';
-        }
-        if (price === '' || isNaN(price) || price <= 0 || !Number.isInteger(parseFloat(price))) {
-            errorMessage += '価格は1以上の整数を入力してください。\n';
-        }
-        if (quantity === '' || isNaN(quantity) || quantity <= 0 || !Number.isInteger(parseFloat(quantity))) {
-            errorMessage += '個数は1以上の整数を入力してください。\n';
-        }
-        if (productImage === '') {
-            errorMessage += '商品画像が未選択です。\n';
-        } else if (!allowedExtensions.exec(productImage)) {
-            errorMessage += '画像ファイルの拡張子は.jpg、.jpeg、.pngのみ許可されています。\n';
-        }
-
-        if (errorMessage !== '') {
-            alert(errorMessage);
-            return false;
-        }
-        return true;
-    }
-
-    </script>
-
 </head>
 
 <body>
@@ -70,30 +36,65 @@
 
         <div class="sub-title-container">
             <h3 class="sub-title">商品登録フォーム</h3>
-                <form action="./product.php" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
-                    <label for="product_name">商品名　　:</label>
-                    <input type="text" id="product_name" name="product_name" required><br>
-        
-                    <label for="price">価　格　　:</label>
-                    <input type="number" id="price" name="price" required><br>
-        
-                    <label for="quantity">個　数　　:</label>
-                    <input type="number" id="quantity" name="quantity" required><br>
+            <?php
+            // 商品登録成功メッセージがセッションにある場合、表示する
+            if (isset($_SESSION['success_message'])) {
+                echo '<div class="alert alert-success" role="alert">';
+                echo $_SESSION['success_message'];
+                echo '</div>';
+                // 商品登録成功メッセージを表示した後に、セッションから削除する
+                unset($_SESSION['success_message']);
+            }
+            // 在庫数変更成功メッセージがセッションにある場合、表示する
+            if (isset($_SESSION['quantity_update'])) {
+                echo '<div class="alert alert-success" role="alert">';
+                echo $_SESSION['quantity_update'];
+                echo '</div>';
+                // 在庫数変更成功メッセージを表示した後に、セッションから削除する
+                unset($_SESSION['quantity_update']);
+            }
+            // 公開フラグ更新成功メッセージがセッションにある場合、表示する
+            if (isset($_SESSION['public_flag_update'])) {
+                echo '<div class="alert alert-success" role="alert">';
+                echo $_SESSION['public_flag_update'];
+                echo '</div>';
+                // 公開フラグ更新成功メッセージを表示した後に、セッションから削除する
+                unset($_SESSION['public_flag_update']);
+            }
+            // 商品削除成功メッセージがセッションにある場合、表示する
+            if (isset($_SESSION['product_delete'])) {
+                echo '<div class="alert alert-success" role="alert">';
+                echo $_SESSION['product_delete'];
+                echo '</div>';
+                // 商品削除成功メッセージを表示した後に、セッションから削除する
+                unset($_SESSION['product_delete']);
+            }
+            ?>
 
-                    <label for="public_flag">公開ステータス:</label>
-                    <select id="public_flag" name="public_flag">
-                        <option value="1">公開</option>
-                        <option value="0">非公開</option>
-                    </select><br>
-        
-                    <label for="product_image">商品画像　:</label>
-                    <input type="file" id="product_image" name="product_image" accept="image/*"><br>
-        
-                    
-                    <br>
-                    <button type="submit" name="register">登録</button>
-                    
-                </form>
+            <form action="./product.php" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                <label for="product_name">商品名　　:</label>
+                <input type="text" id="product_name" name="product_name" required><br>
+    
+                <label for="price">価　格　　:</label>
+                <input type="number" id="price" name="price" required><br>
+    
+                <label for="quantity">個　数　　:</label>
+                <input type="number" id="quantity" name="quantity" required><br>
+
+                <label for="public_flag">公開ステータス:</label>
+                <select id="public_flag" name="public_flag">
+                    <option value="1">公開</option>
+                    <option value="0">非公開</option>
+                </select><br>
+    
+                <label for="product_image">商品画像　:</label>
+                <input type="file" id="product_image" name="product_image" accept="image/*"><br>
+    
+                
+                <br>
+                <button type="submit" name="register">登録</button>
+                
+            </form>
         </div>
         
         <div class="sub-title-container">
@@ -134,7 +135,7 @@
                                 </form>
                             </td>
                             <!-- 商品を削除するaリンク -->
-                            <td><a href="./product.php?id=<?= htmlspecialchars($product['product_id'], ENT_QUOTES, 'UTF-8') ?>" onclick="return confirm('本当に削除しますか？')">削除</a></td>
+                            <td><a href="./product.php?id=<?= htmlspecialchars($product['product_id'], ENT_QUOTES, 'UTF-8') ?>">削除</a></td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
@@ -145,32 +146,6 @@
             </table>
         </div>
     </div>
-
-    <script>
-        // 商品登録成功時のメッセージ表示
-        <?php if (isset($_SESSION['register_success'])): ?>
-            alert("<?php echo $_SESSION['register_success']; ?>");
-            <?php unset($_SESSION['register_success']); ?>
-        <?php endif; ?>
-
-        // 在庫数変更時のメッセージ表示
-        <?php if (isset($_SESSION['quantity_update'])): ?>
-            alert("<?php echo $_SESSION['quantity_update']; ?>");
-            <?php unset($_SESSION['quantity_update']); ?>
-        <?php endif; ?>
-
-        // 公開フラグ更新時のメッセージ表示
-        <?php if (isset($_SESSION['public_flag_update'])): ?>
-            alert("<?php echo $_SESSION['public_flag_update']; ?>");
-            <?php unset($_SESSION['public_flag_update']); ?>
-        <?php endif; ?>
-
-        // 商品削除時のメッセージ表示
-        <?php if (isset($_SESSION['product_delete'])): ?>
-            alert("<?php echo $_SESSION['product_delete']; ?>");
-            <?php unset($_SESSION['product_delete']); ?>
-        <?php endif; ?>
-    </script>
 
     <!-- Bootstrap JavaScript（オプション） -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>

@@ -60,7 +60,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // 入力バリデーション
         if ($product_id === false || $num === false || $num<= 0) {
             // 無効な入力の場合、エラーメッセージを表示
-            header('Location: ./shopping.php?error=invalid_input');
+             $_SESSION['error'] = '無効な入力内容です。';
+            header('Location: ./shopping.php');
             exit;
         }
 
@@ -81,9 +82,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($available_quantity !== false && $available_quantity > 0) {
                 // 在庫がある場合、カートに追加
                 addToCart($user_id, $product_id, min($num, $available_quantity));
+                $_SESSION['message'] = 'カートに商品が追加されました。';
             } else {
                 // 在庫がない場合、エラーメッセージを表示
-                header('Location: ./shopping.php?error=out_of_stock');
+                $_SESSION['error'] = '在庫がありません。';
+                header('Location: ./shopping.php');
                 exit;
             }
 
