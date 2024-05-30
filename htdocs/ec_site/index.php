@@ -12,6 +12,9 @@ $dbh = dbConnect();
 // function.phpの読み込み
 require_once('../../include/model/function.php');
 
+// エラーメッセージを格納する変数を初期化
+$error_message ='';
+
 // もしログイン済みであれば、shopping.phpにリダイレクト
 if (isset($_SESSION['username'])) {
     header("Location: ../ec_site/shopping.php");
