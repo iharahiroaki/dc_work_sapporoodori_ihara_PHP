@@ -69,6 +69,14 @@
                 // 商品削除成功メッセージを表示した後に、セッションから削除する
                 unset($_SESSION['product_delete']);
             }
+            // エラーメッセージがセッションにある場合、表示する
+            if (isset($_SESSION['error_message'])) {
+                echo '<div class="alert alert-danger" role="alert">';
+                echo $_SESSION['error_message'];
+                echo '</div>';
+                // エラーメッセージを表示した後に、セッションから削除する
+                unset($_SESSION['error_message']);
+            }
             ?>
 
             <form action="./product.php" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
