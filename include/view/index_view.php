@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>毛鉤専門ショップ_ログインページ</title>
 
-    <link rel="stylesheet" href="../include/view/stylesheet/index_styles.css">
+    <link rel="stylesheet" href="./stylesheet/index_styles.css">
 
 </head>
 <body>
