@@ -11,26 +11,18 @@
 </head>
 <body>
     <header>
-        <h1 class="site-title">フライフィッシングの毛鉤専門ショップ</h1>
-    </header>
-    
+        <h1 class="site-title">ログイン</h1>
+    </header>   
     <div class="login-container">
-        <h2 class="login-title">ログイン</h2>
         <?php if (isset($error_message)): ?>
-            <p class="error-message"><?php echo htmlspecialchars($error_message, ENT_QUOTES, 'UTF-8'); ?></p>
+            <p class="error-message"><?php echo escapeHTML($error_message); ?></p> <!-- HTMLエスケープ関数の使用 -->
         <?php endif; ?>
         <form action="./index.php" method="post" class="login-form">
-            <div class="form-group">
-                <label for="username" class="login-label">ユーザーID:</label>
-                <!-- ※required属性でnull禁止 -->
-                <input type="text" name="username" id="username" autocomplete="off" required><br><br>
-            </div>
-            <div class="form-group">
-                <label for="password" class="login-label">パスワード:</label>
-                <!-- ※required属性でnull禁止 -->
-                <input type="password" name="password" id="password" autocomplete="off" required><br><br>
-            </div>
-            <input type="submit" value="ログイン">
+            <label for="username" class="login-label">ユーザーID:</label>
+            <input type="text" name="username" id="username" required>
+            <label for="password" class="login-label">パスワード:</label>
+            <input type="password" name="password" id="password" required>
+            <button type="submit">ログイン</button>
         </form>
         <br>
         <a href="./register.php" class="signup">新規登録はここをクリック！</a>

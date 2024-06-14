@@ -1,4 +1,6 @@
 <?php
+require_once '../include/config/const.php'; // 定数を含むファイルの読み込み
+
 // データベース接続
 function dbConnect() {
     $dsn = 'mysql:host=localhost;dbname=xb513874_bi2q3;charset=utf8';
@@ -11,10 +13,8 @@ function dbConnect() {
             PDO::ATTR_EMULATE_PREPARES => false,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
         ]);
+        return $dbh;
     } catch(PDOException $e) {
-        echo '接続に失敗しました。'. $e->getMessage();
-        exit();
-    };
-
-    return $dbh;
+        exit('データベース接続に失敗しました: '. $e->getMessage());
+    }
 }
