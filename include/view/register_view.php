@@ -1,6 +1,9 @@
 <?php
 $title = '毛鉤専門ショップ_ユーザー登録ページ';
 $stylesheet = './stylesheet/register_styles.css';
+$navItems = [
+    ['url' => './index.php', 'label' => 'ログインページ']
+];
 require_once '../include/view/templates/header.php';
 ?>
 <div class="register-container">
