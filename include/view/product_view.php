@@ -113,8 +113,5 @@ require_once '../include/view/templates/header.php';
             </table>
         </div>
     </div>
-    <form action="./product.php" method="post">
-        <button type="submit" name="logout">ログアウト</button>
-    </form>
 </div>
 <?php require_once '../include/view/templates/footer.php'; ?>

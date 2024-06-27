@@ -15,11 +15,6 @@ $table = 'product';
 $allProducts = getAllData($dbh, $table);
 // var_dump($allProducts);
 
-// ログアウト処理
-if (isset($_POST['logout'])) {
-    logout();
-}
-
 // 商品の登録
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
   $success = registerProduct($dbh, $_POST, $_FILES);
