@@ -13,7 +13,7 @@ $error_message = ''; // エラーメッセージを格納する変数を初期�
 
 // もしログイン済みであれば、shopping.phpにリダイレクト
 if (isset($_SESSION['username'])) {
-    redirect('../ec_site/shopping.php'); // リダイレクト関数の使用
+    redirect('./shopping.php'); // リダイレクト関数の使用
 }
 
 // フォームが送信されたかどうかを確認する
@@ -26,17 +26,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = escapeHTML($password); // HTMLエスケープ関数の使用
 
     // 入力の検証
-    if(empty($username) || empty($password)) {
-        $error_message = "ユーザーIDおよびパスワードを入力してください。";
+    if (empty($username) || empty($password)) {
+      $error_message = "ユーザーIDおよびパスワードを入力してください。";
     } else {
-        $user = getUser($dbh, $username);
-        if ($user && password_verify($password, $user['password'])) {
+        if ($username === 'ec_admin' && $password === 'ec_admin') {
+            $_SESSION['admin'] = true;
             $_SESSION['username'] = $username;
             session_regenerate_id(true);
-            saveSessionToDB($dbh, $username, session_id());
-            redirect('./shopping.php'); // リダイレクト関数の使用
+            redirect('./product.php');
         } else {
-            $error_message = "ユーザーIDまたはパスワードが間違っています。";
+            $user = getUser($dbh, $username);
+            if ($user && password_verify($password, $user['password'])) {
+                $_SESSION['username'] = $username;
+                $_SESSION['admin'] = false;
+                session_regenerate_id(true);
+                saveSessionToDB($dbh, $username, session_id());
+                redirect('./shopping.php');
+            } else {
+                $error_message = "ユーザーIDまたはパスワードが間違っています。";
+            }
         }
     }
 }

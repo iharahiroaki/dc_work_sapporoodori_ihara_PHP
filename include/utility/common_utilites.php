@@ -29,3 +29,17 @@ function safeSessionDestroy() {
     }
     session_destroy();
 }
+
+// ログアウト処理する関数
+function logout() {
+  // セッションを破棄してログアウトする
+  session_unset();
+  session_destroy();
+  // ログアウト後はログインページにリダイレクトする
+  header("Location: ./index.php");
+  exit;
+}
+
+if (isset($_POST['action']) && $_POST['action'] === 'logout') {
+  logout();
+}

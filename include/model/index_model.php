@@ -1,6 +1,5 @@
 <?php
 // データベースの情報の出し入れ
-
 function getUser($dbh, $username) {
     $stmt = $dbh->prepare("SELECT * FROM user WHERE user_name = :username");
     $stmt->bindParam(':username', $username, PDO::PARAM_STR);

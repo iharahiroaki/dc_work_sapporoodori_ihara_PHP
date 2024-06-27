@@ -17,9 +17,17 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto d-flex align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link" href="./index.php">ログインページ</a>
-                    </li>
+                    <?php foreach ($navItems ?? [] as $item): ?>
+                        <li class="nav-item">
+                            <?php if (isset($item['form'])) : ?>
+                                <form action="<?= $item['form']['action'] ?>" method="post" class="d-inline">
+                                    <button type="submit" name="<?= $item['form']['name'] ?>" class="btn btn-link nav-link"><?= $item['label'] ?></button>
+                                </form>
+                            <?php else : ?>
+                                <a class="nav-link" href="<?= $item['url'] ?>"><?= $item['label'] ?></a>
+                            <?php endif; ?>
+                        </li>
+                    <?php endforeach; ?>
                 </ul>
             </div>
         </div>
