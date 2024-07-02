@@ -1,8 +1,6 @@
 <?php
 require_once '../include/utility/common_utilites.php';
 
-safeSessionStart();
-
 function getAllData($dbh, $table) {
     $stmt = $dbh->prepare("SELECT * FROM $table");
     $stmt->execute();
