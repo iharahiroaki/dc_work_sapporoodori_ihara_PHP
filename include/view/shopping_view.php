@@ -102,9 +102,4 @@ require_once '../include/view/templates/header.php';
         </div>
     <?php endforeach; ?>
 </div>
-
-<!-- Bootstrap JavaScript（オプション） -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    
-</body>
-</html>
+<?php require_once '../include/view/templates/footer.php'; ?>

@@ -1,27 +1,24 @@
 <?php
-// セッションを開始
-session_start();
-
 // ブラウザにエラーを表示
 ini_set('display_errors', "On");
 
-// セッションからカートの商品情報を取得
-$cart_items = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
+require_once '../include/utility/common_utilites.php';
+require_once '../include/utility/dbConnect.php';
+require_once '../include/model/cart_model.php';
 
-// データベースに接続
-require_once('../../include/model/dbConnect.php');
+safeSessionStart();
 $dbh = dbConnect();
 
-// function.phpの読み込み
-require_once('../../include/model/function.php');
-
-// もし未ログインであれば、index.phpにリダイレクト
-checkLogin();
+if (!isset($_SESSION['username'])) {
+    redirect('./index.php'); // リダイレクト関数の使用
+}
 
 // ログアウト処理
 if (isset($_POST['logout'])) {
     logout();
 }
+// セッションからカートの商品情報を取得
+$cart_items = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
 
 // 商品の追加
 if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["product_id"]) && isset($_POST["num"])) {
@@ -247,8 +244,4 @@ foreach ($cart_items as $item) {
     $total_price += $product_info['price'] * $item['quantity'];
 }
 
-try {
-    require_once('../../include/view/cart_view.php');
-} catch (Exception $e) {
-    echo 'viewファイルの読み込みに失敗しました。' . $e->getMessage();
-}
+require_once('../include/view/cart_view.php');
