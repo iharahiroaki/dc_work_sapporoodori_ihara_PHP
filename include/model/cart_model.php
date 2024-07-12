@@ -4,7 +4,7 @@ function addItemToCart($dbh, &$cart_items) {
     $product_id = filter_input(INPUT_POST, 'product_id', FILTER_VALIDATE_INT);
     $num = filter_input(INPUT_POST, 'num', FILTER_VALIDATE_INT);
     
-    if ($pruduct_id === false || $num === false || $num <= 0) {
+    if ($product_id === false || $num === false || $num <= 0) {
         $_SESSION['error'] = '無効な入力です。';
         header('Location: ./cart.php');
         exit;
@@ -159,9 +159,6 @@ function processPurchase($dbh, &$cart_items) {
 
 // 数量の変更の関数
 function updateCartItemQuantity($dbh, &$cart_items, $product_id, $quantity) {
-    $product_id = filter_input(INPUT_POST, 'product_id', FILTER_VALIDATE_INT);
-    $quantity = filter_input(INPUT_POST, 'quantity', FILTER_VALIDATE_INT);
-
     if ($product_id !== false && $quantity !== false && $quantity > 0) {
         try {
             // トランザクションの開始
