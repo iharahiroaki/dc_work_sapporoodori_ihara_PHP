@@ -43,3 +43,19 @@ function logout() {
 if (isset($_POST['action']) && $_POST['action'] === 'logout') {
   logout();
 }
+
+// データを取得する関数
+function getAllData($dbh, $table) {
+    try {
+        // ①sql文の準備
+        $sql = "SELECT * FROM " . $table;
+        // ②sql文の実行
+        $stmt = $dbh->query($sql);
+        // ③sql文の結果取り出し
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    } catch(PDOException $e) {
+        echo 'クエリの実行に失敗しました。' . $e->getMessage();
+        exit();
+    }
+}

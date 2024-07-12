@@ -37,6 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             $user = getUser($dbh, $username);
             if ($user && password_verify($password, $user['password'])) {
+                $_SESSION['user_id'] = $user['user_id'];
                 $_SESSION['username'] = $username;
                 $_SESSION['admin'] = false;
                 session_regenerate_id(true);

@@ -23,7 +23,7 @@ $table = 'product';
 $allProducts = getAllData($dbh, $table);
 
 // セッションデータの検証
-if (!isset($_SESSION['username']) || !isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['user_id']) || !is_int($_SESSION['user_id']) || $_SESSION['user_id'] <= 0) {
     // セッションデータが不正な場合は、エラーメッセージを表示してリダイレクト
     header('Location: ./index?error=invalid_session');
     exit;

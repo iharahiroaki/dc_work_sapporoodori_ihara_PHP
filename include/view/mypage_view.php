@@ -1,17 +1,16 @@
 <?php
-$title = '毛鉤専門ショップ_マイページ';
+$title = '毛鉤専門ショップ_購入完了ページ';
 $stylesheet = './stylesheet/mypage_styles.css';
 $navItems = [
     ['url' => './shopping.php', 'label' => '商品一覧'],
-    ['url' => './cart.php', 'label' => '買い物カゴ'],
-    ['form' => ['action' => './mypage.php', 'name' => 'logout'], 'label' => 'ログアウト']
+    ['form' => ['action' => './purchase_comp.php', 'name' => 'logout'], 'label' => 'ログアウト']
 ];
 require_once '../include/view/templates/header.php';
 ?>
 
 <div class="container mypage-container">
     <h1>マイページ</h1>
-    <p>ようこそ、<?= htmlspecialchars($_SESSION['username'], ENT_QUOTES, 'UTF-8') ?>さん</p>
+    <p>ようこそ、<?= $_SESSION['username'] ?>さん</p>
 
     <div class="history">
         <h2>購入履歴</h2>
